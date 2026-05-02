@@ -6,9 +6,8 @@ namespace Jemgdevp\Domo\Services\TUI;
 
 use Laravel\Prompts\MenuPrompt;
 use Laravel\Prompts\SelectPrompt;
-use Laravel\Prompts\NotePrompt;
-use Laravel\Prompts\SpinnerPrompt;
-use Laravel\Prompts\ErrorPrompt;
+use Laravel\Prompts\Note;
+use Laravel\Prompts\Spinner;
 use Laravel\Prompts\ConfirmPrompt;
 use Laravel\Prompts\TextPrompt;
 
@@ -62,7 +61,7 @@ class TuiService
      */
     public function displaySchema(string $table, array $columns): void
     {
-        NotePrompt::make("Schema for table: {$table}")->display();
+        (new Note("Schema for table: {$table}"))->display();
     }
 
     /**
@@ -70,7 +69,7 @@ class TuiService
      */
     public function withSpinner(string $label, callable $callback): mixed
     {
-        return SpinnerPrompt::make(label: $label)->prompt($callback);
+        return (new Spinner($label))->prompt($callback);
     }
 
     /**
@@ -78,7 +77,7 @@ class TuiService
      */
     public function success(string $message): void
     {
-        NotePrompt::make("✅ {$message}")->display();
+        (new Note("✅ {$message}"))->display();
     }
 
     /**
@@ -86,7 +85,7 @@ class TuiService
      */
     public function error(string $message): void
     {
-        ErrorPrompt::make($message)->display();
+        (new Note($message, 'error'))->display();
     }
 
     /**
