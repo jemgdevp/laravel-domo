@@ -1,0 +1,10 @@
+# Configuration for Issue Templates
+
+blank_issues_enabled: false
+contact_links:
+  - name: Security Issues
+    url: mailto:murksopps@gmail.com
+    about: Please report security vulnerabilities via email instead of opening an issue
+  - name: Questions & Discussions
+    url: https://github.com/jemgdevp/laravel-domo/discussions
+    about: Please use GitHub Discussions for questions and general discussions

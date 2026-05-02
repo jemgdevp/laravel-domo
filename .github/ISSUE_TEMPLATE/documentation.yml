@@ -1,0 +1,40 @@
+name: Documentation
+description: Suggest improvements or additions to documentation
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping to improve our documentation!
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type of Change
+      description: What type of documentation change is this?
+      options:
+        - New documentation
+        - Correction/fix
+        - Improvement/enhancement
+        - Translation
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: file
+    attributes:
+      label: Affected Documentation File(s)
+      description: Which file(s) or section(s) does this affect?
+      placeholder: "README.md, QUICKSTART.md, etc."
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the proposed changes.
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why is this change needed?
+      description: Explain why this documentation improvement is important.
