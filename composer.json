@@ -9,7 +9,8 @@
         "tui",
         "orm",
         "eloquent",
-        "architecture"
+        "architecture",
+        "development"
     ],
     "homepage": "https://github.com/jemgdevp/laravel-domo",
     "license": "MIT",
