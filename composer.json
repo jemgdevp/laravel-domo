@@ -1,0 +1,77 @@
+{
+    "name": "jemgdevp/laravel-domo",
+    "description": "AI-powered database orchestrator for Laravel. Web Dashboard, TUI, and MCP server for Eloquent architecture and migration management.",
+    "keywords": [
+        "laravel",
+        "database",
+        "ai",
+        "mcp",
+        "tui",
+        "orm",
+        "eloquent",
+        "architecture"
+    ],
+    "homepage": "https://github.com/jemgdevp/laravel-domo",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "jemgdevp",
+            "email": "murksopps@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0|^13.0",
+        "illuminate/console": "^11.0|^12.0|^13.0",
+        "illuminate/database": "^11.0|^12.0|^13.0",
+        "illuminate/view": "^11.0|^12.0|^13.0",
+        "illuminate/http": "^11.0|^12.0|^13.0",
+        "laravel/prompts": "^0.1|^0.2|^0.3",
+        "nunomaduro/termwind": "^2.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "phpunit/phpunit": "^10.5|^11.0",
+        "laravel/pint": "^1.13",
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jemgdevp\\Domo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jemgdevp\\Domo\\Tests\\": "test/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html=coverage",
+        "lint": "vendor/bin/pint --test",
+        "cs-fix": "vendor/bin/pint",
+        "phpstan": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/php-cs-fixer fix --verbose"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jemgdevp\\Domo\\DomoServiceProvider"
+            ],
+            "aliases": {
+                "Domo": "Jemgdevp\\Domo\\Facades\\Domo"
+            }
+        }
+    }
+}

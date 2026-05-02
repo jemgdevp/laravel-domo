@@ -1,0 +1,15 @@
+{
+    "$schema": "https://raw.githubusercontent.com/phpactor/phpactor/master/schema/json.schema.json",
+    "language_server_worse_reflection.in_project": true,
+    "language_server_worse_reflection.workspace_index": true,
+    "indexer.enabled_watch": "none",
+    "indexer.index_path": "%cache%/index/%project_id%",
+    "indexer.include_patterns": [
+        "/src/**/*.php",
+        "/test/**/*.php"
+    ],
+    "indexer.exclude_patterns": [
+        "/vendor/**/Tests/**/*",
+        "/vendor/**/tests/**/*"
+    ]
+}
