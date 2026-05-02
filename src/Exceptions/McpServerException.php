@@ -4,6 +4,4 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Exceptions;
 
-class McpServerException extends DomoException
-{
-}
+class McpServerException extends DomoException {}

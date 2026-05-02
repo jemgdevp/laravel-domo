@@ -16,13 +16,9 @@ class MigrationGenerated
 
     /**
      * Create a new event instance.
-     *
-     * @param string $name
-     * @param string $path
      */
     public function __construct(
         public readonly string $name,
         public readonly string $path
-    ) {
-    }
+    ) {}
 }

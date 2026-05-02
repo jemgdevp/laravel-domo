@@ -11,7 +11,7 @@ class ConnectionManagerTest extends TestCase
 {
     public function test_connection_manager_can_be_instantiated(): void
     {
-        $manager = new ConnectionManager();
+        $manager = new ConnectionManager;
         $this->assertInstanceOf(ConnectionManager::class, $manager);
     }
 

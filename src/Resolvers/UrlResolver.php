@@ -20,8 +20,6 @@ class UrlResolver
 
     /**
      * Create a new URL resolver instance.
-     *
-     * @param Request $request
      */
     public function __construct(Request $request)
     {
@@ -30,8 +28,6 @@ class UrlResolver
 
     /**
      * Get the current URL.
-     *
-     * @return string
      */
     public function getCurrentUrl(): string
     {
@@ -40,8 +36,6 @@ class UrlResolver
 
     /**
      * Get the base URL for the dashboard.
-     *
-     * @return string
      */
     public function getDashboardBaseUrl(): string
     {
@@ -50,22 +44,19 @@ class UrlResolver
 
     /**
      * Check if the current request is for the dashboard.
-     *
-     * @return bool
      */
     public function isDashboardRequest(): bool
     {
-        return $this->request->is($this->getDashboardBaseUrl() . '/*');
+        $base = $this->getDashboardBaseUrl();
+
+        return $this->request->is($base) || $this->request->is("{$base}/*");
     }
 
     /**
      * Resolve a dashboard route.
-     *
-     * @param string $route
-     * @return string
      */
     public function resolveRoute(string $route): string
     {
-        return rtrim($this->getDashboardBaseUrl(), '/') . '/' . ltrim($route, '/');
+        return rtrim($this->getDashboardBaseUrl(), '/').'/'.ltrim($route, '/');
     }
 }

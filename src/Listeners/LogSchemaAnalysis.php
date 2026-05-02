@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Listeners;
 
-use Jemgdevp\Domo\Events\SchemaAnalysisCompleted;
 use Illuminate\Support\Facades\Log;
+use Jemgdevp\Domo\Events\SchemaAnalysisCompleted;
 
 /**
  * Listener for schema analysis completion.
@@ -16,9 +16,6 @@ class LogSchemaAnalysis
 {
     /**
      * Handle the event.
-     *
-     * @param SchemaAnalysisCompleted $event
-     * @return void
      */
     public function handle(SchemaAnalysisCompleted $event): void
     {

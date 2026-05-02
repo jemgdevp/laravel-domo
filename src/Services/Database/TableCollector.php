@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Services\Database;
 
-use Illuminate\Support\Collection;
-
 /**
  * Table metadata collector.
  *
@@ -16,13 +14,10 @@ class TableCollector
 {
     /**
      * Create a new table collector instance.
-     *
-     * @param ConnectionManager $connection
      */
     public function __construct(
         protected ConnectionManager $connection
-    ) {
-    }
+    ) {}
 
     /**
      * Get all table names.
@@ -37,40 +32,43 @@ class TableCollector
 
         return collect($tables)
             ->flatten()
-            ->map(fn($table) => is_array($table) ? reset($table) : $table)
+            ->map(fn ($table) => is_array($table) ? reset($table) : $table)
             ->toArray();
     }
 
     /**
      * Get table columns.
      *
-     * @param string $table
      * @return array<string, mixed>
      */
     public function getColumns(string $table): array
     {
+        $grammar = $this->connection->getConnection()->getSchemaGrammar();
+        $wrapped = $grammar->wrapTable($table);
+
         return $this->connection->getConnection()->select(
-            "DESCRIBE {$table}"
+            "DESCRIBE {$wrapped}"
         );
     }
 
     /**
      * Get table indexes.
      *
-     * @param string $table
      * @return array<string, mixed>
      */
     public function getIndexes(string $table): array
     {
+        $grammar = $this->connection->getConnection()->getSchemaGrammar();
+        $wrapped = $grammar->wrapTable($table);
+
         return $this->connection->getConnection()->select(
-            "SHOW INDEX FROM {$table}"
+            "SHOW INDEX FROM {$wrapped}"
         );
     }
 
     /**
      * Get table foreign keys.
      *
-     * @param string $table
      * @return array<string, mixed>
      */
     public function getForeignKeys(string $table): array
@@ -78,13 +76,13 @@ class TableCollector
         $database = $this->connection->getDatabaseName();
 
         return $this->connection->getConnection()->select(
-            "SELECT 
+            'SELECT 
                 COLUMN_NAME,
                 CONSTRAINT_NAME,
                 REFERENCED_TABLE_NAME,
                 REFERENCED_COLUMN_NAME
              FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-             WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND REFERENCED_TABLE_NAME IS NOT NULL",
+             WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND REFERENCED_TABLE_NAME IS NOT NULL',
             [$database, $table]
         );
     }

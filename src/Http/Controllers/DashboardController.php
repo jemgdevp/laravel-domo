@@ -4,24 +4,22 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Jemgdevp\Domo\Contracts\SchemaAnalyzerInterface;
 
 class DashboardController extends Controller
 {
-    /**
-     * @param SchemaAnalyzerInterface $analyzer
-     */
     public function __construct(
         protected SchemaAnalyzerInterface $analyzer
-    ) {
-    }
+    ) {}
 
     /**
      * Display dashboard.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {
@@ -34,14 +32,14 @@ class DashboardController extends Controller
     /**
      * Display schema overview.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function schema()
     {
-        $tables = $this->analyzer->getTables();
-        $schemas = [];
+        $tableNames = $this->analyzer->getTables();
 
-        foreach ($tables as $table) {
+        $schemas = [];
+        foreach ($tableNames as $table) {
             $tableName = is_array($table) ? reset($table) : $table;
             $schemas[$tableName] = $this->analyzer->getTableSchema($tableName);
         }
@@ -52,7 +50,7 @@ class DashboardController extends Controller
     /**
      * Display models.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function models()
     {
@@ -67,10 +65,21 @@ class DashboardController extends Controller
     }
 
     /**
+     * Display AI analysis page.
+     *
+     * @return View
+     */
+    public function analyzePage()
+    {
+        $tables = $this->analyzer->getTables();
+
+        return view('domo::dashboard.analyze', compact('tables'));
+    }
+
+    /**
      * Analyze schema with AI.
      *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function analyze(Request $request)
     {

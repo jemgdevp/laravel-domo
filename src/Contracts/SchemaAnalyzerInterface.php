@@ -16,7 +16,6 @@ interface SchemaAnalyzerInterface
     /**
      * Get table schema.
      *
-     * @param string $table
      * @return array<string, mixed>
      */
     public function getTableSchema(string $table): array;
@@ -24,14 +23,13 @@ interface SchemaAnalyzerInterface
     /**
      * Get Eloquent models.
      *
-     * @return array<string, mixed>
+     * @return array<int, class-string>
      */
     public function getModels(): array;
 
     /**
      * Analyze model relationships.
      *
-     * @param string $model
      * @return array<string, mixed>
      */
     public function analyzeModelRelationships(string $model): array;

@@ -12,13 +12,13 @@ class AiDriverTest extends TestCase
 {
     public function test_anthropic_driver_can_be_instantiated(): void
     {
-        $driver = new AnthropicDriver();
+        $driver = new AnthropicDriver;
         $this->assertInstanceOf(AnthropicDriver::class, $driver);
     }
 
     public function test_openai_driver_can_be_instantiated(): void
     {
-        $driver = new OpenAIDriver();
+        $driver = new OpenAIDriver;
         $this->assertInstanceOf(OpenAIDriver::class, $driver);
     }
 }

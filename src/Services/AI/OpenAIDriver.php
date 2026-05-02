@@ -9,16 +9,12 @@ use Jemgdevp\Domo\Exceptions\AiDriverException;
 
 class OpenAIDriver implements AiDriverInterface
 {
-    /**
-     * @param string|null $apiKey
-     */
     public function __construct(
         protected ?string $apiKey = null
-    ) {
-    }
+    ) {}
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function analyzeSchema(array $schema): array
     {
@@ -27,7 +23,7 @@ class OpenAIDriver implements AiDriverInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function generateMigration(array $analysis): string
     {
@@ -36,7 +32,7 @@ class OpenAIDriver implements AiDriverInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function suggestRelationships(array $models): array
     {

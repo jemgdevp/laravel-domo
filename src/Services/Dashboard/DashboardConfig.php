@@ -13,8 +13,6 @@ class DashboardConfig
 {
     /**
      * Check if dashboard is enabled.
-     *
-     * @return bool
      */
     public static function isEnabled(): bool
     {
@@ -23,8 +21,6 @@ class DashboardConfig
 
     /**
      * Get dashboard route prefix.
-     *
-     * @return string
      */
     public static function getRoute(): string
     {
@@ -43,8 +39,6 @@ class DashboardConfig
 
     /**
      * Get dashboard host.
-     *
-     * @return string
      */
     public static function getHost(): string
     {
@@ -53,8 +47,6 @@ class DashboardConfig
 
     /**
      * Get dashboard port.
-     *
-     * @return int
      */
     public static function getPort(): int
     {
@@ -63,11 +55,9 @@ class DashboardConfig
 
     /**
      * Get full dashboard URL.
-     *
-     * @return string
      */
     public static function getUrl(): string
     {
-        return "http://" . self::getHost() . ':' . self::getPort() . '/' . self::getRoute();
+        return 'http://'.self::getHost().':'.self::getPort().'/'.self::getRoute();
     }
 }

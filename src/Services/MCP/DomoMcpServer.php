@@ -9,16 +9,12 @@ use Jemgdevp\Domo\Contracts\SchemaAnalyzerInterface;
 
 class DomoMcpServer implements McpServerInterface
 {
-    /**
-     * @param SchemaAnalyzerInterface $analyzer
-     */
     public function __construct(
         protected SchemaAnalyzerInterface $analyzer
-    ) {
-    }
+    ) {}
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function start(): void
     {
@@ -26,7 +22,7 @@ class DomoMcpServer implements McpServerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function stop(): void
     {
@@ -34,7 +30,7 @@ class DomoMcpServer implements McpServerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function handleRequest(array $request): array
     {
@@ -64,7 +60,6 @@ class DomoMcpServer implements McpServerInterface
     /**
      * Describe a specific table.
      *
-     * @param string $table
      * @return array<string, mixed>
      */
     protected function describeTable(string $table): array
@@ -93,7 +88,6 @@ class DomoMcpServer implements McpServerInterface
     /**
      * Analyze a specific model.
      *
-     * @param string $model
      * @return array<string, mixed>
      */
     protected function analyzeModel(string $model): array

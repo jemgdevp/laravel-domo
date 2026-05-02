@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jemgdevp\Domo\Services\TUI;
 
 use Jemgdevp\Domo\Contracts\SchemaAnalyzerInterface;
-use Laravel\Prompts\Prompt;
 
 /**
  * TUI Screen Manager.
@@ -16,25 +15,23 @@ class ScreenManager
 {
     /**
      * Create a new screen manager instance.
-     *
-     * @param TuiService $tui
-     * @param SchemaAnalyzerInterface $analyzer
      */
     public function __construct(
         protected TuiService $tui,
         protected SchemaAnalyzerInterface $analyzer
-    ) {
-    }
+    ) {}
 
     /**
      * Run the main TUI loop.
-     *
-     * @return void
      */
     public function run(): void
     {
         while (true) {
             $choice = $this->tui->renderMainMenu();
+
+            if ($choice === 'quit') {
+                break;
+            }
 
             match ($choice) {
                 'schema' => $this->showSchemaScreen(),
@@ -42,7 +39,6 @@ class ScreenManager
                 'analyze' => $this->showAnalysisScreen(),
                 'migrations' => $this->showMigrationsScreen(),
                 'export' => $this->showExportScreen(),
-                'quit' => break,
                 default => $this->tui->error('Invalid option'),
             };
         }
@@ -52,8 +48,6 @@ class ScreenManager
 
     /**
      * Show schema screen.
-     *
-     * @return void
      */
     protected function showSchemaScreen(): void
     {
@@ -61,12 +55,25 @@ class ScreenManager
 
         if (empty($tables)) {
             $this->tui->error('No tables found');
+
             return;
         }
 
-        $selectedTable = $this->tui->selectTable(
-            collect($tables)->map(fn($table) => is_array($table) ? reset($table) : $table)->toArray()
-        );
+        $options = collect($tables)->map(function ($table) {
+            if (is_array($table)) {
+                return reset($table);
+            }
+
+            if (is_object($table)) {
+                $vars = get_object_vars($table);
+
+                return reset($vars);
+            }
+
+            return $table;
+        })->toArray();
+
+        $selectedTable = $this->tui->selectTable($options);
 
         $schema = $this->analyzer->getTableSchema($selectedTable);
         $this->tui->displaySchema($selectedTable, $schema['columns'] ?? []);
@@ -74,8 +81,6 @@ class ScreenManager
 
     /**
      * Show models screen.
-     *
-     * @return void
      */
     protected function showModelsScreen(): void
     {
@@ -83,18 +88,17 @@ class ScreenManager
 
         if (empty($models)) {
             $this->tui->error('No models found');
+
             return;
         }
 
-        $this->tui->success('Found ' . count($models) . ' models');
-        
+        $this->tui->success('Found '.count($models).' models');
+
         // TODO: Display models with relationships
     }
 
     /**
      * Show AI analysis screen.
-     *
-     * @return void
      */
     protected function showAnalysisScreen(): void
     {
@@ -108,8 +112,6 @@ class ScreenManager
 
     /**
      * Show migrations screen.
-     *
-     * @return void
      */
     protected function showMigrationsScreen(): void
     {
@@ -118,8 +120,6 @@ class ScreenManager
 
     /**
      * Show export screen.
-     *
-     * @return void
      */
     protected function showExportScreen(): void
     {

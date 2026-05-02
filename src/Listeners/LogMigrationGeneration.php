@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Listeners;
 
-use Jemgdevp\Domo\Events\MigrationGenerated;
 use Illuminate\Support\Facades\Log;
+use Jemgdevp\Domo\Events\MigrationGenerated;
 
 /**
  * Listener for migration generation.
@@ -16,9 +16,6 @@ class LogMigrationGeneration
 {
     /**
      * Handle the event.
-     *
-     * @param MigrationGenerated $event
-     * @return void
      */
     public function handle(MigrationGenerated $event): void
     {

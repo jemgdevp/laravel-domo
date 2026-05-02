@@ -47,7 +47,7 @@ class DomoServeCommand extends Command
         $this->info('🏠 Starting Laravel Domo Dashboard...');
         $this->line('');
         $this->line("  ➜  Local:   http://{$host}:{$port}/domo");
-        $this->line("  ➜  Network: http://" . getHostByName(getHostName()) . ":{$port}/domo");
+        $this->line('  ➜  Network: http://'.gethostbyname(gethostname()).":{$port}/domo");
         $this->line('');
         $this->line('  Press Ctrl+C to stop the server');
         $this->line('');
@@ -59,23 +59,22 @@ class DomoServeCommand extends Command
         // TODO: Start actual server using PHP built-in server
         // For now, show instructions
         $this->warn('Note: Full server implementation coming soon.');
-        $this->warn('For now, use: php artisan serve --host=' . $host . ' --port=' . $port);
+        $this->warn('For now, use: php artisan serve --host='.$host.' --port='.$port);
 
         return Command::SUCCESS;
     }
 
     /**
      * Open URL in browser.
-     *
-     * @param string $url
-     * @return void
      */
     protected function openInBrowser(string $url): void
     {
+        $escapedUrl = escapeshellarg($url);
+
         match (PHP_OS_FAMILY) {
-            'Darwin' => exec("open '{$url}'"),
-            'Windows' => exec("start '' '{$url}'"),
-            'Linux' => exec("xdg-open '{$url}'"),
+            'Darwin' => exec("open {$escapedUrl}"),
+            'Windows' => exec("start '' {$escapedUrl}"),
+            'Linux' => exec("xdg-open {$escapedUrl}"),
             default => null,
         };
 

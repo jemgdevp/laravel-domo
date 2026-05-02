@@ -11,15 +11,24 @@ use Jemgdevp\Domo\Exceptions\SchemaAnalyzerException;
 class Analyzer implements SchemaAnalyzerInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getTables(): array
     {
-        return DB::select('SHOW TABLES');
+        $connection = DB::connection();
+        $driver = $connection->getDriverName();
+
+        return match ($driver) {
+            'mysql' => DB::select('SHOW TABLES'),
+            'pgsql' => DB::select("SELECT tablename FROM pg_tables WHERE schemaname = 'public'"),
+            'sqlite' => DB::select("SELECT name FROM sqlite_master WHERE type = 'table' AND name != 'sqlite_sequence'"),
+            'sqlsrv' => DB::select("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'"),
+            default => throw new \RuntimeException("Unsupported database driver: {$driver}"),
+        };
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getTableSchema(string $table): array
     {
@@ -33,7 +42,7 @@ class Analyzer implements SchemaAnalyzerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getModels(): array
     {
@@ -44,8 +53,8 @@ class Analyzer implements SchemaAnalyzerInterface
             return $models;
         }
 
-        foreach (glob($modelPath . '/*.php') as $file) {
-            $className = 'App\\Models\\' . basename($file, '.php');
+        foreach (glob($modelPath.'/*.php') as $file) {
+            $className = 'App\\Models\\'.basename($file, '.php');
             if (class_exists($className)) {
                 $models[] = $className;
             }
@@ -55,7 +64,7 @@ class Analyzer implements SchemaAnalyzerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function analyzeModelRelationships(string $model): array
     {
@@ -63,12 +72,12 @@ class Analyzer implements SchemaAnalyzerInterface
             throw new SchemaAnalyzerException("Model {$model} does not exist");
         }
 
-        $instance = new $model();
+        $instance = new $model;
         $relationships = [];
 
         // Detect common relationship methods
         $methods = get_class_methods($instance);
-        $relationshipMethods = array_filter($methods, fn($method) => match ($method) {
+        $relationshipMethods = array_filter($methods, fn ($method) => match ($method) {
             'hasMany', 'hasOne', 'belongsTo', 'belongsToMany',
             'hasManyThrough', 'hasOneThrough' => true,
             default => str_ends_with($method, 'Many') ||

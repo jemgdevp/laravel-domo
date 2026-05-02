@@ -6,6 +6,4 @@ namespace Jemgdevp\Domo\Exceptions;
 
 use RuntimeException;
 
-class DomoException extends RuntimeException
-{
-}
+class DomoException extends RuntimeException {}

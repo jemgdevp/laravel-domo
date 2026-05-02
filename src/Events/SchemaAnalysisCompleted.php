@@ -17,12 +17,10 @@ class SchemaAnalysisCompleted
     /**
      * Create a new event instance.
      *
-     * @param string $target
-     * @param array<string, mixed> $results
+     * @param  array<string, mixed>  $results
      */
     public function __construct(
         public readonly string $target,
         public readonly array $results
-    ) {
-    }
+    ) {}
 }

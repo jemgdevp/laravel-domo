@@ -22,19 +22,14 @@ class ConnectionManager
 
     /**
      * Create a new connection manager instance.
-     *
-     * @param string|null $connection
      */
-    public function __construct(
-        protected ?string $connection = null
-    ) {
+    public function __construct(?string $connection = null)
+    {
         $this->connection = DB::connection($connection);
     }
 
     /**
      * Get the database connection.
-     *
-     * @return Connection
      */
     public function getConnection(): Connection
     {
@@ -43,8 +38,6 @@ class ConnectionManager
 
     /**
      * Get the database driver name.
-     *
-     * @return string
      */
     public function getDriverName(): string
     {
@@ -53,8 +46,6 @@ class ConnectionManager
 
     /**
      * Get the database name.
-     *
-     * @return string
      */
     public function getDatabaseName(): string
     {
@@ -63,8 +54,6 @@ class ConnectionManager
 
     /**
      * Get the table prefix.
-     *
-     * @return string
      */
     public function getTablePrefix(): string
     {
@@ -73,8 +62,6 @@ class ConnectionManager
 
     /**
      * Check if the connection is to a SQLite database.
-     *
-     * @return bool
      */
     public function isSqlite(): bool
     {
@@ -83,8 +70,6 @@ class ConnectionManager
 
     /**
      * Check if the connection is to a MySQL database.
-     *
-     * @return bool
      */
     public function isMysql(): bool
     {
@@ -93,8 +78,6 @@ class ConnectionManager
 
     /**
      * Check if the connection is to a PostgreSQL database.
-     *
-     * @return bool
      */
     public function isPostgres(): bool
     {

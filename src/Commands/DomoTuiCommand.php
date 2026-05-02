@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Jemgdevp\Domo\Commands;
 
 use Illuminate\Console\Command;
+use Jemgdevp\Domo\Contracts\SchemaAnalyzerInterface;
 use Jemgdevp\Domo\Services\TUI\ScreenManager;
 use Jemgdevp\Domo\Services\TUI\TuiService;
-use Jemgdevp\Domo\Contracts\SchemaAnalyzerInterface;
 
 /**
  * Launch the Laravel Domo terminal user interface.

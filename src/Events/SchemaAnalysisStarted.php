@@ -16,11 +16,8 @@ class SchemaAnalysisStarted
 
     /**
      * Create a new event instance.
-     *
-     * @param string $target
      */
     public function __construct(
         public readonly string $target
-    ) {
-    }
+    ) {}
 }

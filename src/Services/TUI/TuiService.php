@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Services\TUI;
 
-use Laravel\Prompts\Prompt;
-use Laravel\Prompts\Themes\Default\Renderer;
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\menu;
+use function Laravel\Prompts\note;
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\spinner;
+use function Laravel\Prompts\text;
 
 /**
  * Terminal UI Service for Laravel Domo.
@@ -18,12 +23,10 @@ class TuiService
 {
     /**
      * Render the main menu.
-     *
-     * @return string
      */
     public function renderMainMenu(): string
     {
-        return Prompt::menu(
+        return menu(
             label: 'Laravel Domo - Main Menu',
             options: [
                 'schema' => '📊 View Database Schema',
@@ -41,12 +44,11 @@ class TuiService
     /**
      * Render table selection menu.
      *
-     * @param array<string> $tables
-     * @return string
+     * @param  array<string>  $tables
      */
     public function selectTable(array $tables): string
     {
-        return Prompt::select(
+        return select(
             label: 'Select a table to inspect',
             options: $tables,
             scroll: 10,
@@ -56,72 +58,52 @@ class TuiService
     /**
      * Display schema information.
      *
-     * @param string $table
-     * @param array<string, mixed> $columns
-     * @return void
+     * @param  array<string, mixed>  $columns
      */
     public function displaySchema(string $table, array $columns): void
     {
-        Prompt::note("Schema for table: {$table}");
-        
+        note("Schema for table: {$table}");
+
         // TODO: Implement table display with Termwind
     }
 
     /**
      * Display loading spinner.
-     *
-     * @param string $label
-     * @param callable $callback
-     * @return mixed
      */
     public function withSpinner(string $label, callable $callback): mixed
     {
-        return Prompt::spinner($label, $callback);
+        return spinner($label, $callback);
     }
 
     /**
      * Display success message.
-     *
-     * @param string $message
-     * @return void
      */
     public function success(string $message): void
     {
-        Prompt::note("✅ {$message}");
+        note("✅ {$message}");
     }
 
     /**
      * Display error message.
-     *
-     * @param string $message
-     * @return void
      */
     public function error(string $message): void
     {
-        Prompt::error($message);
+        error($message);
     }
 
     /**
      * Confirm action.
-     *
-     * @param string $label
-     * @param bool $default
-     * @return bool
      */
     public function confirm(string $label, bool $default = false): bool
     {
-        return Prompt::confirm($label, $default);
+        return confirm($label, $default);
     }
 
     /**
      * Get text input.
-     *
-     * @param string $label
-     * @param string $default
-     * @return string
      */
     public function text(string $label, string $default = ''): string
     {
-        return Prompt::text($label, $default);
+        return text($label, $default);
     }
 }

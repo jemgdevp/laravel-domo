@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Jemgdevp\Domo\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Jemgdevp\Domo\Contracts\AiDriverInterface;
+use Jemgdevp\Domo\Services\AI\AnthropicDriver;
+use Jemgdevp\Domo\Services\AI\OpenAIDriver;
 
 /**
  * @method static array analyzeSchema(array $schema)
  * @method static string generateMigration(array $analysis)
  * @method static array suggestRelationships(array $models)
  *
- * @see \Jemgdevp\Domo\Services\AI\AnthropicDriver
- * @see \Jemgdevp\Domo\Services\AI\OpenAIDriver
+ * @see AnthropicDriver
+ * @see OpenAIDriver
  */
 class Domo extends Facade
 {
@@ -21,6 +24,6 @@ class Domo extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return \Jemgdevp\Domo\Contracts\AiDriverInterface::class;
+        return AiDriverInterface::class;
     }
 }

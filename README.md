@@ -4,15 +4,15 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/jemgdevp/laravel-domo.svg?style=flat-square)](https://packagist.org/packages/jemgdevp/laravel-domo)
 [![Total Downloads](https://img.shields.io/packagist/dt/jemgdevp/laravel-domo.svg?style=flat-square)](https://packagist.org/packages/jemgdevp/laravel-domo)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/jemgdevp/laravel-domo/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/jemgdevp/laravel-domo/actions)
-[![PHPStan](https://img.shields.io/badge/PHPStan-level%208-blue?style=flat-square)](https://phpstan.org/)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/jemgdevp/laravel-domo/tests.yml?branch=develop&label=tests&style=flat-square)](https://github.com/jemgdevp/laravel-domo/actions)
+[![PHPStan](https://img.shields.io/badge/PHPStan-level%205-blue?style=flat-square)](https://phpstan.org/)
 [![Laravel](https://img.shields.io/badge/Laravel-11%2B-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
 
 </div>
 
 ## 🚀 Overview
 
-**Laravel Domo** is an all-in-one database engineering suite for Laravel (v11-v13). It bridges the gap between raw SQL, Eloquent models, and AI-driven architecture.
+**Laravel Domo** is an all-in-one database engineering suite for Laravel (v11+). It bridges the gap between raw SQL, Eloquent models, and AI-driven architecture.
 
 ### ✨ Features
 

@@ -15,7 +15,6 @@ class MigrationPreviewer
     /**
      * Preview a migration.
      *
-     * @param string $migration
      * @return array<string, mixed>
      */
     public function preview(string $migration): array
@@ -30,7 +29,6 @@ class MigrationPreviewer
     /**
      * Get migration statistics.
      *
-     * @param string $migration
      * @return array<string, mixed>
      */
     public function getStatistics(string $migration): array

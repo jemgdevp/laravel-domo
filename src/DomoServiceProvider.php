@@ -20,7 +20,7 @@ class DomoServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/domo.php', 'domo');
+        $this->mergeConfigFrom(__DIR__.'/../config/domo.php', 'domo');
 
         $this->app->singleton(SchemaAnalyzerInterface::class, Analyzer::class);
         $this->app->singleton(McpServerInterface::class, DomoMcpServer::class);
@@ -42,9 +42,6 @@ class DomoServiceProvider extends ServiceProvider
 
     /**
      * Register AI driver.
-     *
-     * @param string $driver
-     * @return void
      */
     protected function registerAiDriver(string $driver): void
     {
@@ -57,8 +54,6 @@ class DomoServiceProvider extends ServiceProvider
 
     /**
      * Register routes.
-     *
-     * @return void
      */
     protected function registerRoutes(): void
     {
@@ -66,13 +61,11 @@ class DomoServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->loadRoutesFrom(__DIR__ . '/Http/Routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/Http/Routes/web.php');
     }
 
     /**
      * Register commands.
-     *
-     * @return void
      */
     protected function registerCommands(): void
     {
@@ -86,17 +79,15 @@ class DomoServiceProvider extends ServiceProvider
 
     /**
      * Register publishing.
-     *
-     * @return void
      */
     protected function registerPublishing(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/domo.php' => config_path('domo.php'),
+            __DIR__.'/../config/domo.php' => config_path('domo.php'),
         ], 'domo-config');
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/domo'),
+            __DIR__.'/../resources/views' => resource_path('views/vendor/domo'),
         ], 'domo-views');
     }
 }

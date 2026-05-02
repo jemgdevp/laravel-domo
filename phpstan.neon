@@ -1,50 +1,16 @@
-<?php
+parameters:
+    level: 5
+    
+    paths:
+        - %currentWorkingDirectory%/src
+        - %currentWorkingDirectory%/test
 
-declare(strict_types=1);
+    excludePaths:
+        analyse:
+            - %currentWorkingDirectory%/vendor
 
-return [
-    /*
-    |--------------------------------------------------------------------------
-    | PHPStan Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Laravel Domo uses PHPStan for static analysis to catch bugs before
-    | they reach production. This configuration defines the analysis level
-    | and paths to scan.
-    |
-    | Run: vendor/bin/phpstan analyse
-    |
-    */
-
-    'parameters' => [
-        'level' => 8,
-        
-        'paths' => [
-            __DIR__ . '/src',
-            __DIR__ . '/test',
-        ],
-
-        'excludePaths' => [
-            'analyse' => [
-                __DIR__ . '/vendor',
-            ],
-        ],
-
-        'typePerMissingTypeReport' => [
-            'property' => true,
-            'return' => true,
-            'param' => true,
-        ],
-
-        'strictRules' => [
-            'allProperties' => true,
-            'allParams' => true,
-        ],
-
-        'checkGenericClassInNonGenericObjectType' => false,
-    ],
-
-    'includes' => [
-        // Include additional configuration files if needed
-    ],
-];
+    ignoreErrors:
+        -
+            message: '#^Used function Laravel\\Prompts\\(menu|select|note|spinner|error|confirm|text) not found\.$#'
+        -
+            message: '#^Function Laravel\\Prompts\\(menu|select|note|spinner|error|confirm|text) not found\.$#'

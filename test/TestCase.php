@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Tests;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\ServiceProvider;
 use Jemgdevp\Domo\DomoServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
@@ -15,8 +17,8 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get package providers.
      *
-     * @param \Illuminate\Foundation\Application $app
-     * @return array<int, class-string<\Illuminate\Support\ServiceProvider>>
+     * @param  Application  $app
+     * @return array<int, class-string<ServiceProvider>>
      */
     protected function getPackageProviders($app): array
     {
@@ -28,8 +30,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Define environment setup.
      *
-     * @param \Illuminate\Foundation\Application $app
-     * @return void
+     * @param  Application  $app
      */
     protected function defineEnvironment($app): void
     {

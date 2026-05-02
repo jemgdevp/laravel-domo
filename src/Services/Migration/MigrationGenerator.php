@@ -27,9 +27,6 @@ class MigrationGenerator
 
     /**
      * Create a new migration generator instance.
-     *
-     * @param MigrationCreator $creator
-     * @param Filesystem $files
      */
     public function __construct(
         MigrationCreator $creator,
@@ -41,24 +38,19 @@ class MigrationGenerator
 
     /**
      * Generate a migration file.
-     *
-     * @param string $name
-     * @param string $table
-     * @param string $method
-     * @return string
      */
     public function generate(
         string $name,
         string $table,
         string $method = 'create'
     ): string {
-        return $this->creator->create($name, $this->getMigrationsPath(), $table, $method);
+        $create = $method === 'create';
+
+        return $this->creator->create($name, $this->getMigrationsPath(), $table, $create);
     }
 
     /**
      * Get the migrations path.
-     *
-     * @return string
      */
     protected function getMigrationsPath(): string
     {
@@ -73,13 +65,13 @@ class MigrationGenerator
     public function getPendingMigrations(): array
     {
         $migrationsPath = $this->getMigrationsPath();
-        
+
         if (! $this->files->exists($migrationsPath)) {
             return [];
         }
 
         return collect($this->files->files($migrationsPath))
-            ->map(fn($file) => $file->getFilename())
+            ->map(fn ($file) => $file->getFilename())
             ->toArray();
     }
 }
