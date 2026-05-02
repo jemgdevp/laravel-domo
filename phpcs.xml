@@ -1,0 +1,64 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | PHP Code Sniffer Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This configuration file defines the coding standards for PHP_CodeSniffer.
+    | Laravel Domo follows PSR-12 with some additional rules.
+    |
+    */
+
+    'default_standard' => 'PSR12',
+
+    'file_extensions' => ['php'],
+
+    'ignore_patterns' => [
+        '*/vendor/*',
+        '*/node_modules/*',
+        '*/cache/*',
+        '*/storage/*',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sniffs Configuration
+    |--------------------------------------------------------------------------
+    */
+
+    'sniffs' => [
+        'Generic.Arrays.DisallowLongArraySyntax' => 'error',
+        'Generic.Formatting.SpaceAfterNot' => 'error',
+        'Generic.Classes.OpeningBraceSameLine' => 'error',
+        'Generic.ControlStructures.InlineControlStructure' => 'error',
+        
+        'PSR12.Files.FileHeader' => 'error',
+        'PSR12.Functions.ReturnTypeDeclaration' => 'error',
+        'PSR12.Properties.ConstantVisibility' => 'error',
+        
+        'Squiz.Arrays.ArrayDeclaration' => 'error',
+        'Squiz.Classes.ValidClassName' => 'error',
+        'Squiz.Commenting.FunctionComment' => 'warn',
+        'Squiz.Functions.FunctionDeclaration' => 'error',
+        'Squiz.WhiteSpace.OperatorSpacing' => 'error',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Ruleset
+    |--------------------------------------------------------------------------
+    */
+
+    'ruleset' => [
+        'PSR12',
+        'Generic.Arrays.DisallowLongArraySyntax',
+        'Generic.Formatting.SpaceAfterNot',
+        'Generic.Classes.OpeningBraceSameLine',
+        'Squiz.Arrays.ArrayDeclaration',
+        'Squiz.WhiteSpace.OperatorSpacing',
+    ],
+];

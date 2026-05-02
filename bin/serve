@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Laravel Domo - Web Dashboard Server
+ *
+ * This script starts the web dashboard server for Laravel Domo.
+ * It provides a visual interface for database schema management.
+ */
+
+define('LARAVEL_DOMO_START', microtime(true));
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Jemgdevp\Domo\Commands\DomoServeCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application('Laravel Domo', '0.1.0');
+$application->add(new DomoServeCommand());
+$application->setDefaultCommand('domo:serve', true);
+$application->run();

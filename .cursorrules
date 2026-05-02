@@ -1,0 +1,161 @@
+## Laravel Domo - Cursor AI Rules
+
+### Project Context
+- **Framework**: Laravel 11-13 Package
+- **PHP Version**: 8.2+
+- **Type**: Database orchestrator with AI integration
+- **Architecture**: Modern Laravel package structure
+
+### Code Generation Rules
+
+#### PHP Standards
+1. **Always use strict types**: `declare(strict_types=1);`
+2. **Type hints**: All parameters and return types must be declared
+3. **PHPDoc**: Document all public methods with @param and @return
+4. **PSR-12**: Follow Laravel/PSR-12 coding standards
+5. **Naming**: Use descriptive, meaningful names
+
+#### Laravel Package Conventions
+1. **Service Provider**: Register bindings in `DomoServiceProvider`
+2. **Contracts**: Define interfaces in `Contracts/` namespace
+3. **Exceptions**: Extend `DomoException` base class
+4. **Tests**: Use TestBench, extend `Jemgdevp\Domo\Tests\TestCase`
+5. **Config**: Use `config('domo.*')` pattern
+
+#### AI Integration Guidelines
+1. **Driver Pattern**: Implement `AiDriverInterface` for AI providers
+2. **Error Handling**: Use custom exceptions, never expose API keys
+3. **Configuration**: Make AI drivers configurable via `.env`
+4. **Rate Limiting**: Consider API rate limits in implementation
+
+### Testing Requirements
+1. **Unit Tests**: Test individual classes in isolation
+2. **Feature Tests**: Test integration points
+3. **Coverage**: Aim for 80%+ coverage
+4. **Naming**: `test_[method]_[scenario]_[expected_result]`
+5. **Assertions**: Use specific assertions, avoid `assertTrue`
+
+### Security Rules
+1. **Never commit**: API keys, credentials, secrets
+2. **Environment**: Use `env()` only in config files
+3. **Validation**: Validate all user inputs
+4. **XSS Protection**: Escape output in views
+5. **CSRF**: Use `@csrf` in forms
+
+### File Structure
+```
+src/
+├── Commands/          # Artisan commands
+├── Contracts/         # Interfaces
+├── Events/            # Event classes
+├── Exceptions/        # Custom exceptions
+├── Facades/           # Facade classes
+├── Http/              # Controllers & Routes
+├── Listeners/         # Event listeners
+├── Services/          # Business logic
+└── Resolvers/         # Custom resolvers
+```
+
+### Commit Message Format
+Use Conventional Commits:
+```
+<type>(<scope>): <description>
+
+Examples:
+feat(commands): add domo:serve command
+fix(schema): resolve null pointer in analysis
+docs(readme): update installation instructions
+test(unit): add tests for AI driver interface
+refactor(services): extract schema analysis logic
+```
+
+### Common Patterns
+
+#### Service Class Template
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Jemgdevp\Domo\Services\[Name];
+
+class [ServiceName]
+{
+    public function __construct(
+        protected DependencyInterface $dependency
+    ) {
+    }
+
+    /**
+     * Method description.
+     *
+     * @param Type $param
+     * @return Type
+     */
+    public function method(Type $param): Type
+    {
+        // Implementation
+    }
+}
+```
+
+#### Test Class Template
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Jemgdevp\Domo\Tests\Unit;
+
+use Jemgdevp\Domo\Tests\TestCase;
+
+class ServiceTest extends TestCase
+{
+    public function test_method_does_something(): void
+    {
+        // Arrange
+        $service = new Service();
+        
+        // Act
+        $result = $service->method();
+        
+        // Assert
+        $this->assertEquals(expected, $result);
+    }
+}
+```
+
+### AI-Assisted Tasks
+
+#### When Generating Code
+1. Check existing patterns in codebase
+2. Follow established naming conventions
+3. Add appropriate type hints
+4. Include error handling
+5. Write tests for new functionality
+
+#### When Refactoring
+1. Preserve existing behavior
+2. Update tests if needed
+3. Maintain backward compatibility
+4. Document breaking changes
+
+#### When Debugging
+1. Check logs first
+2. Review test failures
+3. Use descriptive error messages
+4. Consider edge cases
+
+### Commands Shortcuts
+- `Cmd+K` - Chat with AI
+- `Cmd+L` - Inline edit
+- `Cmd+Shift+T` - Generate test
+- `Cmd+Shift+E` - Explain code
+- `Cmd+Shift+R` - Refactor
+
+### Package Development Tips
+1. **Backward Compatibility**: Support Laravel 11-13
+2. **Testing**: Use Orchestra TestBench
+3. **Documentation**: Update README and CHANGELOG
+4. **Versioning**: Follow SemVer
+5. **CI/CD**: Ensure all checks pass before merge

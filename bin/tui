@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Laravel Domo - Terminal UI Launcher
+ *
+ * This script launches the terminal user interface for Laravel Domo.
+ * It provides a powerful CLI workflow for database management.
+ */
+
+define('LARAVEL_DOMO_TUI_START', microtime(true));
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Jemgdevp\Domo\Commands\DomoTuiCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application('Laravel Domo TUI', '0.1.0');
+$application->add(new DomoTuiCommand());
+$application->setDefaultCommand('domo:tui', true);
+$application->run();

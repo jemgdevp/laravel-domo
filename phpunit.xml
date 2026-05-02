@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
+         backupGlobals="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="true"
+         cacheDirectory=".phpunit.cache"
+         backupStaticProperties="false"
+         failOnDeprecation="false"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnPhpunitDeprecations="true"
+>
+    <testsuites>
+        <testsuite name="Domo Test Suite">
+            <directory>./test</directory>
+        </testsuite>
+    </testsuites>
+    <groups>
+        <exclude>
+            <!--
+                Group tests that are run with specific command line arguments to ensure they're
+                properly tracked in Domo. See \Jemgdevp\Domo\Resolvers\UrlResolver.
+            -->
+            <group>command-line-url-resolver</group>
+        </exclude>
+    </groups>
+    <source>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+    </source>
+</phpunit>

@@ -1,0 +1,32 @@
+# Conventional Commits Template
+# See: https://www.conventionalcommits.org/en/v1.0.0/
+# 
+# <type>(<scope>): <description>
+# 
+# Types:
+# - feat:     A new feature
+# - fix:      A bug fix
+# - docs:     Documentation only changes
+# - style:    Changes that do not affect the meaning of the code (white-space, formatting, etc)
+# - refactor: A code change that neither fixes a bug nor adds a feature
+# - perf:     A code change that improves performance
+# - test:     Adding missing tests or correcting existing tests
+# - build:    Changes that affect the build system or external dependencies
+# - ci:       Changes to our CI configuration files and scripts
+# - chore:    Other changes that don't modify src or test files
+# - revert:   Reverts a previous commit
+
+# Scope (optional):
+# - Commands, Services, Http, Tests, Config, etc.
+
+# Description guidelines:
+# - Use the imperative, present tense: "change" not "changed" nor "changes"
+# - Don't capitalize the first letter
+# - No dot (.) at the end
+
+# Examples:
+# feat(commands): add domo:serve command for web dashboard
+# fix(schema): resolve null pointer in table analysis
+# docs(readme): update installation instructions
+# test(unit): add tests for AI driver interface
+# refactor(services): extract schema analysis logic to separate class
