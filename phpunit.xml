@@ -18,7 +18,7 @@
 >
     <testsuites>
         <testsuite name="Domo Test Suite">
-            <directory>./tests</directory>
+            <directory>./test</directory>
         </testsuite>
     </testsuites>
     <groups>
