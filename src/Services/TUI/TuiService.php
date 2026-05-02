@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Services\TUI;
 
-use Laravel\Prompts\MenuPrompt;
-use Laravel\Prompts\SelectPrompt;
-use Laravel\Prompts\Note;
-use Laravel\Prompts\Spinner;
 use Laravel\Prompts\ConfirmPrompt;
+use Laravel\Prompts\Note;
+use Laravel\Prompts\SelectPrompt;
+use Laravel\Prompts\Spinner;
 use Laravel\Prompts\TextPrompt;
 
 /**
@@ -25,7 +24,7 @@ class TuiService
      */
     public function renderMainMenu(): string
     {
-        return MenuPrompt::make(
+        return (new SelectPrompt(
             label: 'Laravel Domo - Main Menu',
             options: [
                 'schema' => '📊 View Database Schema',
@@ -37,7 +36,7 @@ class TuiService
             ],
             default: 'schema',
             scroll: 5,
-        )->prompt();
+        ))->prompt();
     }
 
     /**
@@ -47,11 +46,11 @@ class TuiService
      */
     public function selectTable(array $tables): string
     {
-        return SelectPrompt::make(
+        return (new SelectPrompt(
             label: 'Select a table to inspect',
             options: $tables,
             scroll: 10,
-        )->prompt();
+        ))->prompt();
     }
 
     /**
@@ -69,7 +68,7 @@ class TuiService
      */
     public function withSpinner(string $label, callable $callback): mixed
     {
-        return (new Spinner($label))->prompt($callback);
+        return (new Spinner($label))->spin($callback);
     }
 
     /**
@@ -85,7 +84,7 @@ class TuiService
      */
     public function error(string $message): void
     {
-        (new Note($message, 'error'))->display();
+        (new Note($message, type: 'error'))->display();
     }
 
     /**
@@ -93,7 +92,7 @@ class TuiService
      */
     public function confirm(string $label, bool $default = false): bool
     {
-        return ConfirmPrompt::make(label: $label, default: $default)->prompt();
+        return (new ConfirmPrompt(label: $label, default: $default))->prompt();
     }
 
     /**
@@ -101,6 +100,6 @@ class TuiService
      */
     public function text(string $label, string $default = ''): string
     {
-        return TextPrompt::make(label: $label, default: $default)->prompt();
+        return (new TextPrompt(label: $label, default: $default))->prompt();
     }
 }
