@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Services\TUI;
 
+use Laravel\Prompts\ConfirmPrompt;
+use Laravel\Prompts\Note;
+use Laravel\Prompts\SelectPrompt;
+use Laravel\Prompts\Spinner;
+use Laravel\Prompts\TextPrompt;
+
 /**
  * Terminal UI Service for Laravel Domo.
  *
@@ -18,7 +24,7 @@ class TuiService
      */
     public function renderMainMenu(): string
     {
-        return \Laravel\Prompts\menu(
+        return (new SelectPrompt(
             label: 'Laravel Domo - Main Menu',
             options: [
                 'schema' => '📊 View Database Schema',
@@ -30,7 +36,7 @@ class TuiService
             ],
             default: 'schema',
             scroll: 5,
-        );
+        ))->prompt();
     }
 
     /**
@@ -40,11 +46,11 @@ class TuiService
      */
     public function selectTable(array $tables): string
     {
-        return \Laravel\Prompts\select(
+        return (new SelectPrompt(
             label: 'Select a table to inspect',
             options: $tables,
             scroll: 10,
-        );
+        ))->prompt();
     }
 
     /**
@@ -54,9 +60,7 @@ class TuiService
      */
     public function displaySchema(string $table, array $columns): void
     {
-        \Laravel\Prompts\note("Schema for table: {$table}");
-
-        // TODO: Implement table display with Termwind
+        (new Note("Schema for table: {$table}"))->display();
     }
 
     /**
@@ -64,7 +68,7 @@ class TuiService
      */
     public function withSpinner(string $label, callable $callback): mixed
     {
-        return \Laravel\Prompts\spinner($label, $callback);
+        return (new Spinner($label))->spin($callback);
     }
 
     /**
@@ -72,7 +76,7 @@ class TuiService
      */
     public function success(string $message): void
     {
-        \Laravel\Prompts\note("✅ {$message}");
+        (new Note("✅ {$message}"))->display();
     }
 
     /**
@@ -80,7 +84,7 @@ class TuiService
      */
     public function error(string $message): void
     {
-        \Laravel\Prompts\error($message);
+        (new Note($message, type: 'error'))->display();
     }
 
     /**
@@ -88,7 +92,7 @@ class TuiService
      */
     public function confirm(string $label, bool $default = false): bool
     {
-        return \Laravel\Prompts\confirm($label, $default);
+        return (new ConfirmPrompt(label: $label, default: $default))->prompt();
     }
 
     /**
@@ -96,6 +100,6 @@ class TuiService
      */
     public function text(string $label, string $default = ''): string
     {
-        return \Laravel\Prompts\text($label, $default);
+        return (new TextPrompt(label: $label, default: $default))->prompt();
     }
 }

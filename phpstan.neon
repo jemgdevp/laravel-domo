@@ -8,9 +8,3 @@ parameters:
     excludePaths:
         analyse:
             - %currentWorkingDirectory%/vendor
-
-    ignoreErrors:
-        -
-            message: '#^Used function Laravel\\Prompts\\(menu|select|note|spinner|error|confirm|text) not found\.$#'
-        -
-            message: '#^Function Laravel\\Prompts\\(menu|select|note|spinner|error|confirm|text) not found\.$#'
