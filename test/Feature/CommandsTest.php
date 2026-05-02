@@ -11,14 +11,14 @@ class CommandsTest extends TestCase
     public function test_domo_serve_command_exists(): void
     {
         $this->artisan('domo:serve')
-            ->expectsOutputToContain('Starting Domo Dashboard server')
+            ->expectsOutputToContain('Starting Laravel Domo Dashboard')
             ->assertSuccessful();
     }
 
     public function test_domo_tui_command_exists(): void
     {
         $this->artisan('domo:tui')
-            ->expectsOutputToContain('Launching Domo TUI')
+            ->expectsOutputToContain('Laravel Domo TUI')
             ->assertSuccessful();
     }
 }
