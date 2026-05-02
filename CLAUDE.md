@@ -1,4 +1,4 @@
-# Laravel Domo - AI Agent Guidelines
+# CLAUDE.md - Laravel Domo Project Guidelines
 
 ## [ESTÁTICO] Project Context
 

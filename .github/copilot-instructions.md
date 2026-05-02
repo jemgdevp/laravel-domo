@@ -1,4 +1,4 @@
-# Laravel Domo - AI Agent Guidelines
+# GitHub Copilot Instructions - Laravel Domo
 
 ## [ESTÁTICO] Project Context
 
