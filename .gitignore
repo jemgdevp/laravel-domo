@@ -1,0 +1,81 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Laravel
+/.phpunit.cache/
+/vendor/
+/storage/
+*.log
+.env
+.env.local
+.env.*.local
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet/
+/.idea/
+/.vscode/
+
+# Dependencies
+/node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+/dist/
+/build/
+/coverage/
+*.coverage
+.phpactor/
+
+# Testing
+.phpunit.cache/
+.phpunit.result.cache
+coverage/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.test
+.env.testing
+
+# Composer
+composer.lock
+
+# NPM
+package-lock.json
+yarn.lock
+
+# Cache
+cache/
+bootstrap/cache/
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+storage/logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp

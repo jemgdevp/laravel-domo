@@ -1,0 +1,37 @@
+# See https://opencode.ai/docs/features/ignore/
+
+# Dependencies
+vendor/
+node_modules/
+
+# Build artifacts
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+storage/logs/
+
+# Cache
+.phpunit.cache/
+vendor/phpunit/php-code-coverage/.phpunit.cache/
+
+# Temporary files
+tmp/
+temp/

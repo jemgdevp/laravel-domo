@@ -1,0 +1,44 @@
+[core]
+    editor = code
+    autocrlf = input
+    eol = lf
+[init]
+    defaultBranch = main
+[commit]
+    template = .gitmessage
+    gpgsign = false
+[diff]
+    algorithm = histogram
+    colorMoved = default
+[pull]
+    rebase = false
+[push]
+    default = simple
+    followTags = true
+[fetch]
+    prune = true
+[rebase]
+    autosquash = true
+    autostash = true
+[merge]
+    conflictstyle = diff3
+    stat = true
+[log]
+    decorate = short
+    date = short
+[format]
+    pretty = format:%C(yellow)%h%Creset %C(green)%ad%Creset %C(blue)%an%Creset %Creset%s%C(auto)%d%Creset
+[alias]
+    st = status
+    br = branch
+    ci = commit
+    co = checkout
+    df = diff
+    lg = log --oneline --graph --decorate
+    ll = log --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
+    last = log -1 HEAD --stat
+    undo = reset --soft HEAD~1
+    amend = commit --amend
+    unstage = reset HEAD --
+    who = log -1 --pretty=format:\"%an <%ae>\"
+    ignore = !sh -c 'echo \"$1\" >> .gitignore && git add .gitignore && git commit -m \"chore: add $1 to .gitignore\"' -
