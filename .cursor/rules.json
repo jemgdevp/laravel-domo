@@ -1,0 +1,78 @@
+{
+  "ai": {
+    "provider": "openai",
+    "model": "gpt-4",
+    "temperature": 0.7,
+    "maxTokens": 2048
+  },
+  "codeGeneration": {
+    "autoSave": true,
+    "formatOnGenerate": true,
+    "includeComments": false,
+    "strictTypes": true
+  },
+  "testing": {
+    "autoGenerateTests": true,
+    "testFramework": "phpunit",
+    "coverageThreshold": 80
+  },
+  "refactoring": {
+    "preserveBehavior": true,
+    "generateDocs": true
+  },
+  "chat": {
+    "contextAware": true,
+    "includeFileReferences": true,
+    "maxContextTokens": 4096
+  },
+  "commands": {
+    "quickActions": [
+      {
+        "name": "Generate Test",
+        "command": "cursor.generate.test",
+        "shortcut": "Cmd+Shift+T"
+      },
+      {
+        "name": "Explain Code",
+        "command": "cursor.explain",
+        "shortcut": "Cmd+Shift+E"
+      },
+      {
+        "name": "Refactor",
+        "command": "cursor.refactor",
+        "shortcut": "Cmd+Shift+R"
+      },
+      {
+        "name": "Fix Bugs",
+        "command": "cursor.fix",
+        "shortcut": "Cmd+Shift+F"
+      }
+    ]
+  },
+  "php": {
+    "version": "8.2",
+    "framework": "laravel",
+    "codingStandards": {
+      "psr12": true,
+      "strictTypes": true,
+      "typeHints": true
+    },
+    "autoImport": true,
+    "namespaceResolver": true
+  },
+  "laravel": {
+    "version": "11.x",
+    "artisan": {
+      "enabled": true,
+      "autoComplete": true
+    },
+    "blade": {
+      "syntaxHighlighting": true,
+      "intellisense": true
+    },
+    "eloquent": {
+      "intellisense": true,
+      "relationshipHints": true
+    }
+  }
+}

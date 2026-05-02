@@ -1,0 +1,47 @@
+{
+  "settings": {
+    "php.version": "8.2",
+    "laravel.version": "11.x",
+    "strictTypes": true,
+    "psr12": true
+  },
+  "rules": [
+    {
+      "name": "Always use strict types",
+      "pattern": "**/*.php",
+      "description": "All PHP files must start with declare(strict_types=1);"
+    },
+    {
+      "name": "Type hints required",
+      "pattern": "**/src/**/*.php",
+      "description": "All method parameters and return types must have type hints"
+    },
+    {
+      "name": "PHPDoc for public methods",
+      "pattern": "**/src/**/*.php",
+      "description": "All public methods must have PHPDoc comments"
+    },
+    {
+      "name": "Tests in test directory",
+      "pattern": "**/*Test.php",
+      "description": "Test files must be in test/ directory and extend TestCase"
+    },
+    {
+      "name": "No API keys in code",
+      "pattern": "**/*.php",
+      "description": "Never hardcode API keys or secrets"
+    }
+  ],
+  "autoFix": {
+    "formatOnSave": true,
+    "organizeImports": true,
+    "removeUnusedImports": true
+  },
+  "shortcuts": {
+    "generateTest": "Cmd+Shift+T",
+    "explainCode": "Cmd+Shift+E",
+    "refactor": "Cmd+Shift+R",
+    "fixBugs": "Cmd+Shift+F",
+    "optimize": "Cmd+Shift+O"
+  }
+}

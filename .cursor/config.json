@@ -1,0 +1,49 @@
+{
+  "php": {
+    "completion": true,
+    "snippets": true,
+    "lint": true,
+    "format": true
+  },
+  "laravel": {
+    "artisan": {
+      "enabled": true,
+      "autocomplete": true
+    },
+    "blade": {
+      "format": true,
+      "intellisense": true
+    },
+    "eloquent": {
+      "relationships": true,
+      "scopes": true,
+      "accessors": true
+    }
+  },
+  "testing": {
+    "phpunit": {
+      "enabled": true,
+      "autoRun": false,
+      "coverage": true
+    }
+  },
+  "ai": {
+    "enabled": true,
+    "provider": "openai",
+    "contextAware": true,
+    "codeGeneration": true,
+    "refactoring": true,
+    "debugging": true,
+    "documentation": true
+  },
+  "formatting": {
+    "onSave": true,
+    "phpCsFixer": true,
+    "pint": true
+  },
+  "intellisense": {
+    "php": true,
+    "laravel": true,
+    "composer": true
+  }
+}
