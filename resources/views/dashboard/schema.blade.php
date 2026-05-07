@@ -27,18 +27,18 @@
                         @foreach($schema['columns'] as $column)
                             <tr>
                                 <td style="font-weight: 500;">
-                                    {{ is_object($column) ? $column->Field : ($column['Field'] ?? 'N/A') }}
+                                    {{ is_object($column) ? ($column->Field ?? 'N/A') : ($column['Field'] ?? 'N/A') }}
                                 </td>
                                 <td>
                                     <code style="background: #F3F4F6; padding: 0.125rem 0.375rem; border-radius: 0.25rem;">
-                                        {{ is_object($column) ? $column->Type : ($column['Type'] ?? 'N/A') }}
+                                        {{ is_object($column) ? ($column->Type ?? 'N/A') : ($column['Type'] ?? 'N/A') }}
                                     </code>
                                 </td>
                                 <td>
-                                    {{ is_object($column) ? $column->Null : ($column['Null'] ?? 'N/A') }}
+                                    {{ is_object($column) ? ($column->Null ?? 'N/A') : ($column['Null'] ?? 'N/A') }}
                                 </td>
                                 <td>
-                                    {{ is_object($column) ? $column->Key : ($column['Key'] ?? 'N/A') }}
+                                    {{ is_object($column) ? ($column->Key ?? 'N/A') : ($column['Key'] ?? 'N/A') }}
                                 </td>
                                 <td>
                                     {{ is_object($column) ? ($column->Default ?? 'NULL') : ($column['Default'] ?? 'NULL') }}

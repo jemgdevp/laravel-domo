@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Jemgdevp\Domo\Commands;
 
 use Illuminate\Console\Command;
-use Jemgdevp\Domo\Contracts\SchemaAnalyzerInterface;
-use Jemgdevp\Domo\Services\TUI\ScreenManager;
-use Jemgdevp\Domo\Services\TUI\TuiService;
+use Jemgdevp\Domo\Services\TUI\DomoTuiApp;
 
 /**
  * Launch the Laravel Domo terminal user interface.
@@ -38,11 +36,8 @@ class DomoTuiCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(
-        TuiService $tui,
-        ScreenManager $screenManager,
-        SchemaAnalyzerInterface $analyzer
-    ): int {
+    public function handle(DomoTuiApp $app): int
+    {
         $this->info('💻 Laravel Domo TUI');
         $this->line('');
 
@@ -58,8 +53,10 @@ class DomoTuiCommand extends Command
         $this->line('Starting interactive terminal interface...');
         $this->line('');
 
-        // Run TUI
-        $screenManager->run();
+        $app->withOptions(
+            colors: ! $this->option('no-colors'),
+            simple: (bool) $this->option('simple'),
+        )->run();
 
         return Command::SUCCESS;
     }

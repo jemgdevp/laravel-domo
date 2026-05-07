@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Tests\Feature;
 
-use Jemgdevp\Domo\Services\TUI\ScreenManager;
+use Jemgdevp\Domo\Services\TUI\DomoTuiApp;
 use Jemgdevp\Domo\Tests\TestCase;
 
 class CommandsTest extends TestCase
@@ -18,7 +18,8 @@ class CommandsTest extends TestCase
 
     public function test_domo_tui_command_exists(): void
     {
-        $this->mock(ScreenManager::class, function ($mock) {
+        $this->mock(DomoTuiApp::class, function ($mock) {
+            $mock->shouldReceive('withOptions')->once()->andReturnSelf();
             $mock->shouldReceive('run')->once();
         });
 

@@ -12,6 +12,13 @@ use Jemgdevp\Domo\Services\AI\AnthropicDriver;
 use Jemgdevp\Domo\Services\AI\OpenAIDriver;
 use Jemgdevp\Domo\Services\MCP\DomoMcpServer;
 use Jemgdevp\Domo\Services\Schema\Analyzer;
+use Jemgdevp\Domo\Services\TUI\DomoTuiApp;
+use Jemgdevp\Domo\Services\TUI\Screens\AnalyzeScreen;
+use Jemgdevp\Domo\Services\TUI\Screens\ExportScreen;
+use Jemgdevp\Domo\Services\TUI\Screens\HomeScreen;
+use Jemgdevp\Domo\Services\TUI\Screens\MigrationsScreen;
+use Jemgdevp\Domo\Services\TUI\Screens\ModelsScreen;
+use Jemgdevp\Domo\Services\TUI\Screens\SchemaScreen;
 
 class DomoServiceProvider extends ServiceProvider
 {
@@ -24,6 +31,19 @@ class DomoServiceProvider extends ServiceProvider
 
         $this->app->singleton(SchemaAnalyzerInterface::class, Analyzer::class);
         $this->app->singleton(McpServerInterface::class, DomoMcpServer::class);
+        $this->app->singleton(DomoTuiApp::class, function ($app) {
+            return new DomoTuiApp(
+                screens: [
+                    HomeScreen::class => $app->make(HomeScreen::class),
+                    SchemaScreen::class => $app->make(SchemaScreen::class),
+                    ModelsScreen::class => $app->make(ModelsScreen::class),
+                    AnalyzeScreen::class => $app->make(AnalyzeScreen::class),
+                    MigrationsScreen::class => $app->make(MigrationsScreen::class),
+                    ExportScreen::class => $app->make(ExportScreen::class),
+                ],
+                initialScreen: HomeScreen::class,
+            );
+        });
 
         // Register AI driver based on config
         $driver = config('domo.ai_driver', 'openai');

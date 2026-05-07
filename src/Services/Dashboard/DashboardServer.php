@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Jemgdevp\Domo\Services\Dashboard;
 
 use Illuminate\Support\Facades\Route;
+use Jemgdevp\Domo\Http\Controllers\DashboardController;
+use Symfony\Component\Process\Process;
+
+use function Illuminate\Support\php_binary;
 
 /**
  * Dashboard Server Service.
@@ -38,11 +42,25 @@ class DashboardServer
     /**
      * Start the dashboard server.
      */
-    public function start(): void
+    public function start(string $host, int $port, bool $block = true): int
     {
+        $this->host = $host;
+        $this->port = $port;
+
         $this->registerRoutes();
 
-        // TODO: Start development server
+        $process = $this->buildProcess();
+        $process->setTimeout(null);
+
+        if (! $block) {
+            $process->start();
+
+            return 0;
+        }
+
+        return $process->run(function ($type, $buffer) {
+            echo $buffer;
+        });
     }
 
     /**
@@ -50,13 +68,15 @@ class DashboardServer
      */
     protected function registerRoutes(): void
     {
-        Route::prefix('domo')
+        Route::prefix(config('domo.dashboard.route', 'domo'))
             ->name('domo.')
             ->middleware(config('domo.dashboard.middleware', ['web']))
             ->group(function () {
-                Route::get('/', fn () => view('domo::dashboard.index'))->name('index');
-                Route::get('/schema', fn () => view('domo::dashboard.schema'))->name('schema');
-                Route::get('/models', fn () => view('domo::dashboard.models'))->name('models');
+                Route::get('/', [DashboardController::class, 'index'])->name('index');
+                Route::get('/schema', [DashboardController::class, 'schema'])->name('schema');
+                Route::get('/models', [DashboardController::class, 'models'])->name('models');
+                Route::get('/analyze', [DashboardController::class, 'analyzePage'])->name('analyze');
+                Route::post('/analyze', [DashboardController::class, 'analyze'])->name('analyze.post');
             });
     }
 
@@ -73,6 +93,41 @@ class DashboardServer
      */
     public function getDashboardUrl(): string
     {
-        return "{$this->getUrl()}/domo";
+        $route = config('domo.dashboard.route', 'domo');
+
+        return "{$this->getUrl()}/{$route}";
+    }
+
+    /**
+     * Build the PHP development server process.
+     */
+    protected function buildProcess(): Process
+    {
+        return new Process([
+            php_binary(),
+            '-S',
+            "{$this->host}:{$this->port}",
+            $this->resolveServerScript(),
+        ], public_path());
+    }
+
+    /**
+     * Resolve the server script path.
+     */
+    protected function resolveServerScript(): string
+    {
+        $server = base_path('server.php');
+
+        if (is_file($server)) {
+            return $server;
+        }
+
+        $frameworkServer = base_path('vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php');
+
+        if (is_file($frameworkServer)) {
+            return $frameworkServer;
+        }
+
+        throw new \RuntimeException('Unable to locate Laravel server.php for the dashboard server.');
     }
 }

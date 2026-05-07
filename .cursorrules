@@ -146,7 +146,7 @@ class [NameException] extends DomoException
 | Database | `Services/Database/` | `ConnectionManager`, `TableCollector` |
 | Migration | `Services/Migration/` | `MigrationGenerator`, `MigrationPreviewer` |
 | Dashboard | `Services/Dashboard/` | `DashboardServer`, `DashboardConfig` |
-| TUI | `Services/TUI/` | `TuiService`, `ScreenManager` |
+| TUI | `Services/TUI/` | `DomoTuiApp`, `Screens/*`, `Components/ChoiceFieldComponent`, `Widgets/*` |
 
 ### Contracts (`src/Contracts/`)
 | Interface | Methods |

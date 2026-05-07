@@ -40,7 +40,7 @@ class DashboardController extends Controller
 
         $schemas = [];
         foreach ($tableNames as $table) {
-            $tableName = is_array($table) ? reset($table) : $table;
+            $tableName = $this->normalizeTableName($table);
             $schemas[$tableName] = $this->analyzer->getTableSchema($tableName);
         }
 
@@ -94,5 +94,23 @@ class DashboardController extends Controller
             'success' => true,
             'message' => 'Analysis complete',
         ]);
+    }
+
+    /**
+     * Normalize table names from driver results.
+     */
+    protected function normalizeTableName(mixed $table): string
+    {
+        if (is_array($table)) {
+            return (string) reset($table);
+        }
+
+        if (is_object($table)) {
+            $vars = get_object_vars($table);
+
+            return (string) reset($vars);
+        }
+
+        return (string) $table;
     }
 }

@@ -62,10 +62,10 @@
                 View Models
             </a>
             
-            <button class="btn btn-primary" onclick="alert('AI Analysis coming soon!')">
+            <a href="{{ route('domo.analyze') }}" class="btn btn-primary">
                 <span>🤖</span>
                 AI Analysis
-            </button>
+            </a>
             
             <button class="btn btn-primary" onclick="alert('Migration generator coming soon!')">
                 <span>📝</span>

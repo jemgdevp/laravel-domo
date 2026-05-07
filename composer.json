@@ -28,7 +28,8 @@
         "illuminate/console": "^11.0|^12.0",
         "illuminate/database": "^11.0|^12.0",
         "laravel/prompts": "^0.3",
-        "nunomaduro/termwind": "^2.0"
+        "nunomaduro/termwind": "^2.0",
+        "php-tui/php-tui": "^0.2"
     },
     "require-dev": {
         "orchestra/testbench": "^9.0|^10.0",

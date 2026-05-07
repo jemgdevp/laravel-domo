@@ -41,27 +41,23 @@ class DomoServeCommand extends Command
     public function handle(DashboardServer $server): int
     {
         $host = $this->option('host');
-        $port = $this->option('port');
-        $open = $this->option('open');
+        $port = (int) $this->option('port');
+        $open = (bool) $this->option('open');
+        $dashboardUrl = "http://{$host}:{$port}/".config('domo.dashboard.route', 'domo');
 
         $this->info('🏠 Starting Laravel Domo Dashboard...');
         $this->line('');
-        $this->line("  ➜  Local:   http://{$host}:{$port}/domo");
-        $this->line('  ➜  Network: http://'.gethostbyname(gethostname()).":{$port}/domo");
+        $this->line('  ➜  Local:   '.$dashboardUrl);
+        $this->line('  ➜  Network: http://'.gethostbyname(gethostname()).":{$port}/".config('domo.dashboard.route', 'domo'));
         $this->line('');
         $this->line('  Press Ctrl+C to stop the server');
         $this->line('');
 
         if ($open) {
-            $this->openInBrowser("http://{$host}:{$port}/domo");
+            $this->openInBrowser($dashboardUrl);
         }
 
-        // TODO: Start actual server using PHP built-in server
-        // For now, show instructions
-        $this->warn('Note: Full server implementation coming soon.');
-        $this->warn('For now, use: php artisan serve --host='.$host.' --port='.$port);
-
-        return Command::SUCCESS;
+        return $server->start($host, $port);
     }
 
     /**
