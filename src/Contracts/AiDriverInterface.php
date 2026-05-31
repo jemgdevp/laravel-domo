@@ -24,7 +24,7 @@ interface AiDriverInterface
     /**
      * Suggest Eloquent relationships.
      *
-     * @param  array<string, mixed>  $models
+     * @param  array<array-key, mixed>  $models
      * @return array<string, mixed>
      */
     public function suggestRelationships(array $models): array;

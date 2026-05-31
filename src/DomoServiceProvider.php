@@ -45,9 +45,8 @@ class DomoServiceProvider extends ServiceProvider
             );
         });
 
-        // Register AI driver based on config
-        $driver = config('domo.ai_driver', 'openai');
-        $this->registerAiDriver($driver);
+        // Register the AI driver based on the active provider config.
+        $this->registerAiDriver();
     }
 
     /**
@@ -61,14 +60,25 @@ class DomoServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register AI driver.
+     * Register the AI driver resolved from the active provider configuration.
      */
-    protected function registerAiDriver(string $driver): void
+    protected function registerAiDriver(): void
     {
-        $this->app->bind(AiDriverInterface::class, match ($driver) {
-            'anthropic' => AnthropicDriver::class,
-            'openai' => OpenAIDriver::class,
-            default => OpenAIDriver::class,
+        $this->app->bind(AiDriverInterface::class, function (): AiDriverInterface {
+            $name = (string) config('domo.ai_driver', 'openai');
+
+            /** @var array<string, array<string, mixed>> $providers */
+            $providers = (array) config('domo.providers', []);
+            $provider = $providers[$name] ?? $providers['openai'] ?? [];
+
+            $apiKey = is_string($provider['api_key'] ?? null) ? $provider['api_key'] : null;
+            $model = is_string($provider['model'] ?? null) ? $provider['model'] : null;
+            $baseUrl = is_string($provider['base_url'] ?? null) ? $provider['base_url'] : null;
+
+            return match ($provider['variant'] ?? 'openai') {
+                'anthropic' => new AnthropicDriver($apiKey, $model, $baseUrl),
+                default => new OpenAIDriver($apiKey, $model, $baseUrl),
+            };
         });
     }
 
@@ -93,6 +103,7 @@ class DomoServiceProvider extends ServiceProvider
             $this->commands([
                 Commands\DomoServeCommand::class,
                 Commands\DomoTuiCommand::class,
+                Commands\DomoMcpCommand::class,
             ]);
         }
     }
