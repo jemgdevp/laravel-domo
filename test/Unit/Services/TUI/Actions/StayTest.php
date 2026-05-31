@@ -11,9 +11,8 @@ class StayTest extends TestCase
 {
     public function test_it_can_be_instantiated(): void
     {
-        $action = new Stay();
+        $action = new Stay;
 
         $this->assertInstanceOf(Stay::class, $action);
     }
 }
-

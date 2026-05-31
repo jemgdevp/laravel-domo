@@ -10,4 +10,3 @@ final readonly class BannerWidget implements Widget
 {
     public function __construct(public string $title = 'Laravel Domo TUI') {}
 }
-

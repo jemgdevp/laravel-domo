@@ -46,7 +46,7 @@ class DomoTuiApp
         $terminal = Terminal::new();
         $backend = PhpTermBackend::new($terminal);
         $display = DisplayBuilder::default($backend)
-            ->addWidgetRenderer(new KeyHintsWidgetRenderer())
+            ->addWidgetRenderer(new KeyHintsWidgetRenderer)
             ->addWidgetRenderer(new BannerWidgetRenderer($this->colors))
             ->addWidgetRenderer(new SchemaTableWidgetRenderer($this->simple))
             ->fullscreen()
@@ -86,4 +86,3 @@ class DomoTuiApp
         return $action;
     }
 }
-

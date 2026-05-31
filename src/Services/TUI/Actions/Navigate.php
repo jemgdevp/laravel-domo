@@ -10,4 +10,3 @@ final readonly class Navigate implements Action
 {
     public function __construct(public string $screen) {}
 }
-

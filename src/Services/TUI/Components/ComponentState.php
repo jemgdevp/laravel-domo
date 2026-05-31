@@ -10,4 +10,3 @@ enum ComponentState: string
     case Submitted = 'submitted';
     case Ignored = 'ignored';
 }
-

@@ -45,4 +45,3 @@ class SchemaScreenTest extends TestCase
         return $analyzer;
     }
 }
-

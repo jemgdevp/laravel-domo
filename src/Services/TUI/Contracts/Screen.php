@@ -14,4 +14,3 @@ interface Screen
 
     public function handle(object $event): Action;
 }
-

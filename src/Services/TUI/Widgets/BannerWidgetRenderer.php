@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Services\TUI\Widgets;
 
-use PhpTui\Tui\Buffer\Buffer;
+use PhpTui\Tui\Display\Area;
+use PhpTui\Tui\Display\Buffer;
 use PhpTui\Tui\Extension\Core\Widget\ParagraphWidget;
-use PhpTui\Tui\Layout\Area;
 use PhpTui\Tui\Text\Text;
 use PhpTui\Tui\Widget\Widget;
 use PhpTui\Tui\Widget\WidgetRenderer;
@@ -33,4 +33,3 @@ class BannerWidgetRenderer implements WidgetRenderer
         );
     }
 }
-

@@ -9,9 +9,7 @@ class ChoiceFieldComponent
     /**
      * @param  array<string, string>  $choices
      */
-    public function __construct(protected array $choices)
-    {
-    }
+    public function __construct(protected array $choices) {}
 
     protected int $selected = 0;
 
@@ -68,4 +66,3 @@ class ChoiceFieldComponent
         return is_string($event->code ?? null) ? strtolower((string) $event->code) : null;
     }
 }
-

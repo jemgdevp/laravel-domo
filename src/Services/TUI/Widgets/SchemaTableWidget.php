@@ -13,4 +13,3 @@ final readonly class SchemaTableWidget implements Widget
      */
     public function __construct(public array $rows) {}
 }
-

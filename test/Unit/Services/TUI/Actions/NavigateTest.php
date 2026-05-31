@@ -17,4 +17,3 @@ class NavigateTest extends TestCase
         $this->assertSame(HomeScreen::class, $action->screen);
     }
 }
-

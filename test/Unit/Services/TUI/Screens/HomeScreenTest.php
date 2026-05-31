@@ -13,7 +13,7 @@ class HomeScreenTest extends TestCase
 {
     public function test_escape_returns_quit_action(): void
     {
-        $screen = new HomeScreen();
+        $screen = new HomeScreen;
 
         $action = $screen->handle((object) ['code' => 'esc']);
 
@@ -22,11 +22,10 @@ class HomeScreenTest extends TestCase
 
     public function test_enter_returns_navigation_action(): void
     {
-        $screen = new HomeScreen();
+        $screen = new HomeScreen;
 
         $action = $screen->handle((object) ['code' => 'enter']);
 
         $this->assertInstanceOf(Navigate::class, $action);
     }
 }
-

@@ -46,7 +46,6 @@ class MigrationsScreen implements Screen
             return new Navigate(HomeScreen::class);
         }
 
-        return new Stay();
+        return new Stay;
     }
 }
-

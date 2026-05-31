@@ -105,7 +105,7 @@ class SchemaScreen implements Screen
         $this->tablesMenu->handle($event);
         $this->loadSchema();
 
-        return new Stay();
+        return new Stay;
     }
 
     protected function loadSchema(): void
@@ -153,4 +153,3 @@ class SchemaScreen implements Screen
         return strtolower((string) ($event->code ?? '')) === 'esc';
     }
 }
-

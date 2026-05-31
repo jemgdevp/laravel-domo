@@ -28,4 +28,3 @@ class ChoiceFieldComponentTest extends TestCase
         $this->assertSame('second', $component->selectedKey());
     }
 }
-

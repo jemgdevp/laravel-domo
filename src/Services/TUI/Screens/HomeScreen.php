@@ -64,20 +64,20 @@ class HomeScreen implements Screen
     public function handle(object $event): Action
     {
         if ($this->isEscape($event)) {
-            return new Quit();
+            return new Quit;
         }
 
         $result = $this->menu->handle($event);
         if ($result === ComponentState::Submitted) {
             $selected = $this->menu->selectedKey();
             if ($selected === 'quit') {
-                return new Quit();
+                return new Quit;
             }
 
             return new Navigate($selected);
         }
 
-        return new Stay();
+        return new Stay;
     }
 
     protected function isEscape(object $event): bool
@@ -85,4 +85,3 @@ class HomeScreen implements Screen
         return strtolower((string) ($event->code ?? '')) === 'esc';
     }
 }
-

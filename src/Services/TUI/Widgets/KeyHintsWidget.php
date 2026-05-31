@@ -13,4 +13,3 @@ final readonly class KeyHintsWidget implements Widget
      */
     public function __construct(public array $hints) {}
 }
-
