@@ -92,6 +92,8 @@ php artisan domo:tui
 php artisan domo:tui --no-colors --simple
 ```
 
+Note: the rich TUI is supported on Linux/macOS terminals. Windows is not supported by the current PHP-TUI backend.
+
 ### MCP Server
 
 Enable MCP server for AI agent integration:

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://opencode.ai/schema.json",
+  "project": {
+    "name": "laravel-domo",
+    "description": "AI-powered database orchestrator for Laravel with Web Dashboard, TUI, and MCP server",
+    "type": "laravel-package",
+    "php_version": "8.2+",
+    "laravel_version": "11.x-13.x"
+  },
+  "paths": {
+    "source": "src/",
+    "tests": "test/",
+    "config": "config/",
+    "resources": "resources/",
+    "docs": "docs/"
+  },
+  "conventions": {
+    "strict_types": true,
+    "coding_standard": "PSR-12",
+    "autoloading": "PSR-4",
+    "namespace": "Jemgdevp\\Domo\\",
+    "test_namespace": "Jemgdevp\\Domo\\Tests\\"
+  },
+  "commands": {
+    "test": "composer test",
+    "test_coverage": "composer test-coverage",
+    "lint": "composer lint",
+    "cs_fix": "composer cs-fix",
+    "phpstan": "composer phpstan",
+    "format": "composer format"
+  },
+  "components": {
+    "commands": [
+      "DomoServeCommand",
+      "DomoTuiCommand"
+    ],
+    "services": [
+      "AI/OpenAIDriver",
+      "AI/AnthropicDriver",
+      "MCP/DomoMcpServer",
+      "Schema/Analyzer",
+      "Database/ConnectionManager",
+      "Database/TableCollector",
+      "Migration/MigrationGenerator",
+      "Migration/MigrationPreviewer",
+      "Dashboard/DashboardServer",
+      "Dashboard/DashboardConfig",
+      "TUI/TuiService",
+      "TUI/ScreenManager"
+    ],
+    "contracts": [
+      "AiDriverInterface",
+      "McpServerInterface",
+      "SchemaAnalyzerInterface"
+    ],
+    "events": [
+      "SchemaAnalysisStarted",
+      "SchemaAnalysisCompleted",
+      "MigrationGenerated"
+    ],
+    "exceptions": [
+      "DomoException",
+      "AiDriverException",
+      "McpServerException",
+      "SchemaAnalyzerException"
+    ],
+    "listeners": [
+      "LogSchemaAnalysis",
+      "LogMigrationGeneration"
+    ]
+  },
+  "config_keys": {
+    "ai_driver": "DOMO_AI_DRIVER",
+    "openai_api_key": "OPENAI_API_KEY",
+    "anthropic_api_key": "ANTHROPIC_API_KEY",
+    "mcp_enabled": "DOMO_MCP_ENABLED",
+    "mcp_port": "DOMO_MCP_PORT",
+    "mcp_host": "DOMO_MCP_HOST",
+    "dashboard_enabled": "DOMO_DASHBOARD_ENABLED",
+    "dashboard_route": "DOMO_DASHBOARD_ROUTE",
+    "dashboard_port": "DOMO_DASHBOARD_PORT",
+    "tui_enabled": "DOMO_TUI_ENABLED",
+    "tui_theme": "DOMO_TUI_THEME",
+    "tui_colors": "DOMO_TUI_COLORS",
+    "db_connection": "DOMO_DB_CONNECTION",
+    "db_exclude_tables": "DOMO_DB_EXCLUDE_TABLES"
+  },
+  "testing": {
+    "framework": "PHPUnit",
+    "base_class": "Jemgdevp\\Domo\\Tests\\TestCase",
+    "testbench": true,
+    "coverage_target": "80%",
+    "naming": "test_[method]_[scenario]_[expected_result]"
+  },
+  "security": {
+    "never_commit": ["API keys", "credentials", "secrets"],
+    "env_usage": "config files only",
+    "xss_protection": "{{ }} not {!! !!}",
+    "csrf": "@csrf in forms",
+    "sql": "Eloquent/Query Builder only"
+  }
+}

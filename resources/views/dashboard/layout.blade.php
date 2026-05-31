@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700" rel="stylesheet" />
 
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
@@ -60,6 +63,10 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        [x-cloak] {
+            display: none !important;
         }
 
         body {

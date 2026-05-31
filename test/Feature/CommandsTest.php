@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Jemgdevp\Domo\Tests\Feature;
 
-use Jemgdevp\Domo\Services\TUI\ScreenManager;
+use Jemgdevp\Domo\Services\Dashboard\DashboardServer;
+use Jemgdevp\Domo\Services\TUI\DomoTuiApp;
 use Jemgdevp\Domo\Tests\TestCase;
 
 class CommandsTest extends TestCase
 {
     public function test_domo_serve_command_exists(): void
     {
+        $this->mock(DashboardServer::class, function ($mock) {
+            $mock->shouldReceive('start')->once()->andReturn(0);
+        });
+
         $this->artisan('domo:serve')
             ->expectsOutputToContain('Starting Laravel Domo Dashboard')
             ->assertSuccessful();
@@ -18,7 +23,8 @@ class CommandsTest extends TestCase
 
     public function test_domo_tui_command_exists(): void
     {
-        $this->mock(ScreenManager::class, function ($mock) {
+        $this->mock(DomoTuiApp::class, function ($mock) {
+            $mock->shouldReceive('withOptions')->once()->andReturnSelf();
             $mock->shouldReceive('run')->once();
         });
 

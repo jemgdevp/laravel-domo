@@ -16,14 +16,45 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | API Keys
+    | AI Providers
     |--------------------------------------------------------------------------
     |
-    | Configure your preferred AI provider API key.
+    | Each provider describes how to reach an AI backend. The active provider
+    | is selected by the "ai_driver" value above (it must match one of the
+    | keys below). You can add your own providers — any OpenAI-compatible
+    | service (Groq, OpenRouter, Ollama, DeepSeek, ...) works by setting
+    | "variant" to the base protocol and pointing "base_url" at its endpoint.
+    |
+    | Keys per provider:
+    |   - variant:  base protocol / SDK to use, either "openai" or "anthropic".
+    |   - api_key:  the credential for the service.
+    |   - model:    model identifier; null falls back to the driver default.
+    |   - base_url: custom endpoint; null uses the official API URL.
     |
     */
-    'openai_api_key' => env('OPENAI_API_KEY'),
-    'anthropic_api_key' => env('ANTHROPIC_API_KEY'),
+    'providers' => [
+        'openai' => [
+            'variant' => 'openai',
+            'api_key' => env('OPENAI_API_KEY'),
+            'model' => env('DOMO_OPENAI_MODEL', 'gpt-4o-mini'),
+            'base_url' => env('DOMO_OPENAI_BASE_URL'),
+        ],
+
+        'anthropic' => [
+            'variant' => 'anthropic',
+            'api_key' => env('ANTHROPIC_API_KEY'),
+            'model' => env('DOMO_ANTHROPIC_MODEL', 'claude-sonnet-4-5'),
+            'base_url' => env('DOMO_ANTHROPIC_BASE_URL'),
+        ],
+
+        // Example of a user-defined, OpenAI-compatible provider:
+        // 'groq' => [
+        //     'variant' => 'openai',
+        //     'api_key' => env('GROQ_API_KEY'),
+        //     'model' => 'llama-3.3-70b-versatile',
+        //     'base_url' => 'https://api.groq.com/openai/v1',
+        // ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
