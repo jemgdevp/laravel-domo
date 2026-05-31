@@ -190,9 +190,24 @@ class [NameException] extends DomoException
 
 ```php
 return [
-    'ai_driver' => env('DOMO_AI_DRIVER', 'openai'),      // 'openai' | 'anthropic'
-    'openai_api_key' => env('OPENAI_API_KEY'),
-    'anthropic_api_key' => env('ANTHROPIC_API_KEY'),
+    'ai_driver' => env('DOMO_AI_DRIVER', 'openai'),      // must match a key in 'providers'
+
+    // User-extensible providers. variant = base protocol ('openai' | 'anthropic').
+    // base_url lets you point at any compatible endpoint (Groq, OpenRouter, Ollama...).
+    'providers' => [
+        'openai' => [
+            'variant' => 'openai',
+            'api_key' => env('OPENAI_API_KEY'),
+            'model' => env('DOMO_OPENAI_MODEL', 'gpt-4o-mini'),
+            'base_url' => env('DOMO_OPENAI_BASE_URL'),
+        ],
+        'anthropic' => [
+            'variant' => 'anthropic',
+            'api_key' => env('ANTHROPIC_API_KEY'),
+            'model' => env('DOMO_ANTHROPIC_MODEL', 'claude-sonnet-4-5'),
+            'base_url' => env('DOMO_ANTHROPIC_BASE_URL'),
+        ],
+    ],
 
     'mcp' => [
         'enabled' => env('DOMO_MCP_ENABLED', true),
@@ -226,9 +241,13 @@ return [
 ### Environment Variables
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `DOMO_AI_DRIVER` | `openai` | AI provider (`openai` / `anthropic`) |
+| `DOMO_AI_DRIVER` | `openai` | Active provider key (must exist in `providers`) |
 | `OPENAI_API_KEY` | - | OpenAI API key |
+| `DOMO_OPENAI_MODEL` | `gpt-4o-mini` | OpenAI model id |
+| `DOMO_OPENAI_BASE_URL` | - | OpenAI / compatible endpoint override |
 | `ANTHROPIC_API_KEY` | - | Anthropic API key |
+| `DOMO_ANTHROPIC_MODEL` | `claude-sonnet-4-5` | Anthropic model id |
+| `DOMO_ANTHROPIC_BASE_URL` | - | Anthropic endpoint override |
 | `DOMO_MCP_ENABLED` | `true` | Enable MCP server |
 | `DOMO_MCP_PORT` | `3000` | MCP server port |
 | `DOMO_MCP_HOST` | `127.0.0.1` | MCP server host |
