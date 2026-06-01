@@ -253,7 +253,7 @@ return [
 | `ANTHROPIC_API_KEY` | - | Anthropic API key |
 | `DOMO_OPENCODE_API_KEY` | - | opencode API key (default provider) |
 | `DOMO_OPENCODE_MODEL` | `deepseek-v4-pro` | opencode model id |
-| `DOMO_OPENCODE_BASE_URL` | - | opencode (OpenAI-compatible) endpoint |
+| `DOMO_OPENCODE_BASE_URL` | `https://opencode.ai/zen/go/v1/` | opencode (OpenAI-compatible) endpoint |
 | `DOMO_MCP_ENABLED` | `true` | Enable MCP server |
 | `DOMO_MCP_PORT` | `3000` | MCP server port |
 | `DOMO_MCP_HOST` | `127.0.0.1` | MCP server host |

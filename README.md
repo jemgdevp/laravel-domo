@@ -48,7 +48,7 @@ Add your API keys to `.env`:
 # AI Driver Configuration — default provider is "opencode"
 DOMO_AI_DRIVER=opencode
 DOMO_OPENCODE_API_KEY=your-api-key
-DOMO_OPENCODE_BASE_URL=https://your-opencode-endpoint/v1
+DOMO_OPENCODE_BASE_URL=https://opencode.ai/zen/go/v1/
 DOMO_OPENCODE_MODEL=deepseek-v4-pro
 
 # Or use OpenAI
@@ -126,7 +126,7 @@ switch the global default with `DOMO_AI_DRIVER`, or pick the provider/model
 # Default: opencode (OpenAI-compatible)
 DOMO_AI_DRIVER=opencode
 DOMO_OPENCODE_API_KEY=your-api-key
-DOMO_OPENCODE_BASE_URL=https://your-opencode-endpoint/v1
+DOMO_OPENCODE_BASE_URL=https://opencode.ai/zen/go/v1/
 DOMO_OPENCODE_MODEL=deepseek-v4-pro
 
 # Or OpenAI

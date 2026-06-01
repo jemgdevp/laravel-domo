@@ -54,6 +54,16 @@ final class AiDriverFactoryTest extends TestCase
         $this->assertSame('deepseek-v4-pro', $this->readProperty($driver, 'model'));
     }
 
+    public function test_opencode_resolves_its_default_base_url(): void
+    {
+        $driver = (new AiDriverFactory)->make('opencode');
+
+        $this->assertSame(
+            'https://opencode.ai/zen/go/v1/',
+            $this->readProperty($driver, 'baseUrl')
+        );
+    }
+
     public function test_available_providers_lists_configured_keys_in_order(): void
     {
         $this->assertSame(

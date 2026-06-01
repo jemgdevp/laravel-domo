@@ -53,7 +53,7 @@ return [
             'variant' => 'opencode',
             'api_key' => env('DOMO_OPENCODE_API_KEY'),
             'model' => env('DOMO_OPENCODE_MODEL', 'deepseek-v4-pro'),
-            'base_url' => env('DOMO_OPENCODE_BASE_URL'),
+            'base_url' => env('DOMO_OPENCODE_BASE_URL', 'https://opencode.ai/zen/go/v1/'),
         ],
 
         // Example of a user-defined, OpenAI-compatible provider:
