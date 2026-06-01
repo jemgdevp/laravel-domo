@@ -95,15 +95,40 @@ class DomoServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register routes.
+     * Register the dashboard routes.
+     *
+     * The dashboard auto-registers in the host application (no command
+     * required) but, like Telescope, only in the configured environments
+     * (default: "local") so it is never exposed in production.
      */
     protected function registerRoutes(): void
     {
-        if ($this->app->runningInConsole()) {
+        if (! $this->dashboardShouldRegister()) {
             return;
         }
 
         $this->loadRoutesFrom(__DIR__.'/Http/Routes/web.php');
+    }
+
+    /**
+     * Determine whether the dashboard routes may register for the current
+     * environment.
+     */
+    protected function dashboardShouldRegister(): bool
+    {
+        if (! config('domo.dashboard.enabled', true)) {
+            return false;
+        }
+
+        $environments = config('domo.dashboard.environments', ['local']);
+        $environments = is_array($environments) ? $environments : [$environments];
+
+        // An empty list explicitly opts into every environment.
+        if ($environments === []) {
+            return true;
+        }
+
+        return $this->app->environment($environments);
     }
 
     /**

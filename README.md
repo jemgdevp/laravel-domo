@@ -16,7 +16,7 @@
 
 ### ✨ Features
 
-- **🌐 Web Dashboard** - Rich visual interface for database management (`domo:serve`)
+- **🌐 Web Dashboard** - Rich visual interface, auto-mounted at `/domo` in your local environment
 - **💻 Terminal UI** - Powerful TUI for command-line workflow (`domo:tui`)
 - **🤖 AI Architect** - AI-powered Eloquent ORM analysis and suggestions
 - **🔌 MCP Integration** - Model Context Protocol for AI agent connectivity
@@ -66,16 +66,22 @@ DOMO_DASHBOARD_PORT=8080
 
 ### Web Dashboard
 
-Start the web dashboard server:
+The dashboard mounts itself automatically — **no command required**. In your
+**local** environment, just visit the `domo` route on your running app:
 
-```bash
-php artisan domo:serve
+```
+http://localhost:8000/domo      # or whatever host/port your app uses
 ```
 
-Access the dashboard at `http://localhost:8080/domo`
+It is a local development tool: like Telescope, its routes are only registered
+in the environments listed under `dashboard.environments` (default: `['local']`),
+so it is **never exposed in production**.
 
-**Options:**
+**Optional — dedicated server.** To run the dashboard on its own port without
+booting your whole app, the bundled command still works:
+
 ```bash
+php artisan domo:serve --open
 php artisan domo:serve --host=0.0.0.0 --port=3000 --open
 ```
 
@@ -121,7 +127,7 @@ OPENAI_API_KEY=your-api-key
 
 | Command | Description |
 |---------|-------------|
-| `php artisan domo:serve` | Start web dashboard |
+| `php artisan domo:serve` | Run the dashboard on a dedicated server (optional; it auto-mounts at `/domo` in local) |
 | `php artisan domo:tui` | Launch terminal UI |
 | `php artisan vendor:publish --tag=domo-config` | Publish config |
 
@@ -141,6 +147,7 @@ return [
     
     'dashboard' => [
         'enabled' => true,
+        'environments' => ['local'], // environments where the dashboard auto-registers
         'route' => 'domo',
         'host' => '127.0.0.1',
         'port' => 8080,

@@ -140,7 +140,7 @@ class [NameException] extends DomoException
 ### Commands (`src/Commands/`)
 | Command | Class | Description |
 |---------|-------|-------------|
-| `domo:serve` | `DomoServeCommand` | Start web dashboard server |
+| `domo:serve` | `DomoServeCommand` | Run dashboard on a dedicated server (optional; auto-mounts at `/domo` in local) |
 | `domo:tui` | `DomoTuiCommand` | Launch terminal UI |
 
 ### Services (`src/Services/`)
@@ -217,6 +217,7 @@ return [
 
     'dashboard' => [
         'enabled' => env('DOMO_DASHBOARD_ENABLED', true),
+        'environments' => ['local'],  // auto-registers routes only here (Telescope-style; never production)
         'route' => env('DOMO_DASHBOARD_ROUTE', 'domo'),
         'host' => env('DOMO_DASHBOARD_HOST', '127.0.0.1'),
         'port' => env('DOMO_DASHBOARD_PORT', 8080),

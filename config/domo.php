@@ -75,11 +75,22 @@ return [
     | Dashboard
     |--------------------------------------------------------------------------
     |
-    | Web dashboard configuration for the visual interface.
+    | Web dashboard configuration for the visual interface. The dashboard
+    | auto-registers its routes (no command required) — just visit the
+    | configured route in your browser.
     |
     */
     'dashboard' => [
         'enabled' => env('DOMO_DASHBOARD_ENABLED', true),
+
+        /*
+        | Environments where the dashboard is allowed to auto-register its
+        | routes. Like Telescope, it is a local development tool and stays
+        | out of production by default. Set this to an empty array to allow
+        | every environment (NOT recommended).
+        */
+        'environments' => ['local'],
+
         'route' => env('DOMO_DASHBOARD_ROUTE', 'domo'),
         'host' => env('DOMO_DASHBOARD_HOST', '127.0.0.1'),
         'port' => env('DOMO_DASHBOARD_PORT', 8080),
