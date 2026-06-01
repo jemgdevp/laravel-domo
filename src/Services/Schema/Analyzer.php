@@ -34,7 +34,10 @@ class Analyzer implements SchemaAnalyzerInterface
     {
         $connection = DB::connection();
         $driver = $connection->getDriverName();
-        $grammar = $connection->getSchemaGrammar();
+        // Use the query grammar (always initialized on the connection) rather
+        // than the schema grammar, which stays null until the schema builder is
+        // first resolved and would trip "wrapTable() on null" on a fresh request.
+        $grammar = $connection->getQueryGrammar();
         $wrappedTable = $grammar->wrapTable($table);
 
         $columns = $this->getColumnsForDriver($connection, $driver, $wrappedTable, $table);
