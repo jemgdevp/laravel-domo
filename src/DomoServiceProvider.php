@@ -8,8 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Jemgdevp\Domo\Contracts\AiDriverInterface;
 use Jemgdevp\Domo\Contracts\McpServerInterface;
 use Jemgdevp\Domo\Contracts\SchemaAnalyzerInterface;
-use Jemgdevp\Domo\Services\AI\AnthropicDriver;
-use Jemgdevp\Domo\Services\AI\OpenAIDriver;
+use Jemgdevp\Domo\Services\AI\AiDriverFactory;
 use Jemgdevp\Domo\Services\MCP\DomoMcpServer;
 use Jemgdevp\Domo\Services\Schema\Analyzer;
 use Jemgdevp\Domo\Services\TUI\DomoTuiApp;
@@ -76,22 +75,12 @@ class DomoServiceProvider extends ServiceProvider
      */
     protected function registerAiDriver(): void
     {
-        $this->app->bind(AiDriverInterface::class, function (): AiDriverInterface {
-            $name = (string) config('domo.ai_driver', 'openai');
+        $this->app->singleton(AiDriverFactory::class);
 
-            /** @var array<string, array<string, mixed>> $providers */
-            $providers = (array) config('domo.providers', []);
-            $provider = $providers[$name] ?? $providers['openai'] ?? [];
-
-            $apiKey = is_string($provider['api_key'] ?? null) ? $provider['api_key'] : null;
-            $model = is_string($provider['model'] ?? null) ? $provider['model'] : null;
-            $baseUrl = is_string($provider['base_url'] ?? null) ? $provider['base_url'] : null;
-
-            return match ($provider['variant'] ?? 'openai') {
-                'anthropic' => new AnthropicDriver($apiKey, $model, $baseUrl),
-                default => new OpenAIDriver($apiKey, $model, $baseUrl),
-            };
-        });
+        $this->app->bind(
+            AiDriverInterface::class,
+            static fn ($app): AiDriverInterface => $app->make(AiDriverFactory::class)->make()
+        );
     }
 
     /**

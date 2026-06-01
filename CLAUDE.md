@@ -146,7 +146,7 @@ class [NameException] extends DomoException
 ### Services (`src/Services/`)
 | Service | Path | Description |
 |---------|------|-------------|
-| AI Drivers | `Services/AI/` | `OpenAIDriver`, `AnthropicDriver` |
+| AI Drivers | `Services/AI/` | `AiDriverFactory`, `OpenAIDriver`, `AnthropicDriver` |
 | MCP Server | `Services/MCP/DomoMcpServer.php` | Model Context Protocol server |
 | Schema | `Services/Schema/Analyzer.php` | Database schema analysis |
 | Database | `Services/Database/` | `ConnectionManager`, `TableCollector` |
@@ -190,10 +190,12 @@ class [NameException] extends DomoException
 
 ```php
 return [
-    'ai_driver' => env('DOMO_AI_DRIVER', 'openai'),      // must match a key in 'providers'
+    'ai_driver' => env('DOMO_AI_DRIVER', 'opencode'),    // default provider key (must exist in 'providers')
 
-    // User-extensible providers. variant = base protocol ('openai' | 'anthropic').
+    // User-extensible providers. variant = base protocol: 'anthropic' speaks the
+    // Anthropic API; anything else ('openai', 'opencode', ...) is OpenAI-compatible.
     // base_url lets you point at any compatible endpoint (Groq, OpenRouter, Ollama...).
+    // Resolved by Services/AI/AiDriverFactory; selectable per-analysis in the dashboard.
     'providers' => [
         'openai' => [
             'variant' => 'openai',
@@ -206,6 +208,12 @@ return [
             'api_key' => env('ANTHROPIC_API_KEY'),
             'model' => env('DOMO_ANTHROPIC_MODEL', 'claude-sonnet-4-5'),
             'base_url' => env('DOMO_ANTHROPIC_BASE_URL'),
+        ],
+        'opencode' => [                                  // default
+            'variant' => 'opencode',
+            'api_key' => env('DOMO_OPENCODE_API_KEY'),
+            'model' => env('DOMO_OPENCODE_MODEL', 'deepseek-v4-pro'),
+            'base_url' => env('DOMO_OPENCODE_BASE_URL'),
         ],
     ],
 
@@ -242,13 +250,16 @@ return [
 ### Environment Variables
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `DOMO_AI_DRIVER` | `openai` | Active provider key (must exist in `providers`) |
+| `DOMO_AI_DRIVER` | `opencode` | Active provider key (must exist in `providers`) |
 | `OPENAI_API_KEY` | - | OpenAI API key |
 | `DOMO_OPENAI_MODEL` | `gpt-4o-mini` | OpenAI model id |
 | `DOMO_OPENAI_BASE_URL` | - | OpenAI / compatible endpoint override |
 | `ANTHROPIC_API_KEY` | - | Anthropic API key |
 | `DOMO_ANTHROPIC_MODEL` | `claude-sonnet-4-5` | Anthropic model id |
 | `DOMO_ANTHROPIC_BASE_URL` | - | Anthropic endpoint override |
+| `DOMO_OPENCODE_API_KEY` | - | opencode API key (default provider) |
+| `DOMO_OPENCODE_MODEL` | `deepseek-v4-pro` | opencode model id |
+| `DOMO_OPENCODE_BASE_URL` | - | opencode (OpenAI-compatible) endpoint |
 | `DOMO_MCP_ENABLED` | `true` | Enable MCP server |
 | `DOMO_MCP_PORT` | `3000` | MCP server port |
 | `DOMO_MCP_HOST` | `127.0.0.1` | MCP server host |

@@ -9,6 +9,7 @@ use Illuminate\Routing\Router;
 use Jemgdevp\Domo\Contracts\AiDriverInterface;
 use Jemgdevp\Domo\Contracts\SchemaAnalyzerInterface;
 use Jemgdevp\Domo\Exceptions\AiDriverException;
+use Jemgdevp\Domo\Services\AI\AiDriverFactory;
 use Jemgdevp\Domo\Tests\TestCase;
 
 class DashboardAnalyzeTest extends TestCase
@@ -159,5 +160,48 @@ class DashboardAnalyzeTest extends TestCase
             'success' => false,
             'message' => 'Missing API key.',
         ]);
+    }
+
+    public function test_analyze_rejects_an_unknown_provider(): void
+    {
+        $this->fakeAnalyzer();
+
+        $response = $this->postJson(self::ANALYZE_URI, [
+            'type' => 'schema',
+            'provider' => 'totally-not-a-provider',
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('provider');
+    }
+
+    public function test_analyze_uses_the_selected_provider_via_the_factory(): void
+    {
+        $this->fakeAnalyzer(tables: ['users']);
+
+        $driver = $this->createMock(AiDriverInterface::class);
+        $driver->expects($this->once())
+            ->method('analyzeSchema')
+            ->willReturn(['summary' => 'analysed with the chosen provider']);
+
+        $factory = $this->createMock(AiDriverFactory::class);
+        $factory->method('availableProviders')->willReturn(['openai', 'anthropic', 'opencode']);
+        $factory->expects($this->once())
+            ->method('make')
+            ->with('opencode', 'deepseek-v4-pro')
+            ->willReturn($driver);
+        $this->app->instance(AiDriverFactory::class, $factory);
+
+        $response = $this->postJson(self::ANALYZE_URI, [
+            'type' => 'schema',
+            'target' => 'users',
+            'provider' => 'opencode',
+            'model' => 'deepseek-v4-pro',
+        ]);
+
+        $response->assertOk();
+        $response->assertJsonPath('provider', 'opencode');
+        $response->assertJsonPath('model', 'deepseek-v4-pro');
+        $response->assertJsonPath('result.summary', 'analysed with the chosen provider');
     }
 }

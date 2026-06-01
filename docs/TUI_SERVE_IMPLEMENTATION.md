@@ -2,6 +2,11 @@
 
 ## Web Dashboard (`domo:serve`)
 
+> **Note:** the dashboard auto-mounts at `/domo` in your `local` environment
+> (gated by `dashboard.environments`), so `domo:serve` is now **optional** — it
+> just runs the dashboard on its own dedicated port. The AI analysis page also
+> lets you pick the provider/model (e.g. `opencode`, the default) per request.
+
 ### Architecture
 
 ```

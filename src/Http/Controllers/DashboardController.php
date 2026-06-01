@@ -8,8 +8,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\Rule;
 use Jemgdevp\Domo\Contracts\AiDriverInterface;
 use Jemgdevp\Domo\Contracts\SchemaAnalyzerInterface;
+use Jemgdevp\Domo\Services\AI\AiDriverFactory;
 use Throwable;
 
 class DashboardController extends Controller
@@ -74,22 +76,37 @@ class DashboardController extends Controller
     public function analyzePage()
     {
         $tables = $this->analyzer->getTables();
+        $providers = array_keys((array) config('domo.providers', []));
+        $activeProvider = (string) config('domo.ai_driver', 'openai');
 
-        return view('domo::dashboard.analyze', compact('tables'));
+        return view('domo::dashboard.analyze', compact('tables', 'providers', 'activeProvider'));
     }
 
     /**
      * Analyze schema with AI.
+     *
+     * The provider/model may be chosen per request from the dashboard; when
+     * omitted the application's default-bound driver is used.
      */
-    public function analyze(Request $request, AiDriverInterface $ai): JsonResponse
+    public function analyze(Request $request, AiDriverFactory $factory): JsonResponse
     {
         $validated = $request->validate([
             'type' => 'required|in:schema,models,relationships',
             'target' => 'nullable|string',
+            'provider' => ['nullable', 'string', Rule::in($factory->availableProviders())],
+            'model' => 'nullable|string',
         ]);
 
         $type = $validated['type'];
         $target = $validated['target'] ?? null;
+        $provider = $validated['provider'] ?? null;
+        $model = $validated['model'] ?? null;
+
+        // No explicit selection → use the container-bound default driver
+        // (keeps existing bindings/mocks in play); otherwise build the choice.
+        $ai = ($provider === null && $model === null)
+            ? app(AiDriverInterface::class)
+            : $factory->make($provider, $model);
 
         try {
             $result = $this->runAnalysis($ai, $type, $target);
@@ -104,6 +121,8 @@ class DashboardController extends Controller
             'success' => true,
             'type' => $type,
             'target' => $target,
+            'provider' => $provider ?? (string) config('domo.ai_driver', 'openai'),
+            'model' => $model,
             'result' => $result,
         ]);
     }
