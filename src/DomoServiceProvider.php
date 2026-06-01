@@ -55,8 +55,20 @@ class DomoServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerRoutes();
+        $this->registerViews();
         $this->registerCommands();
         $this->registerPublishing();
+    }
+
+    /**
+     * Register the package views under the "domo" namespace.
+     *
+     * Without this, the dashboard controller's view('domo::dashboard.*')
+     * calls fail with "No hint path defined for [domo]".
+     */
+    protected function registerViews(): void
+    {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'domo');
     }
 
     /**
