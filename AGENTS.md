@@ -140,13 +140,13 @@ class [NameException] extends DomoException
 ### Commands (`src/Commands/`)
 | Command | Class | Description |
 |---------|-------|-------------|
-| `domo:serve` | `DomoServeCommand` | Start web dashboard server |
+| `domo:serve` | `DomoServeCommand` | Run dashboard on a dedicated server (optional; auto-mounts at `/domo` in local) |
 | `domo:tui` | `DomoTuiCommand` | Launch terminal UI |
 
 ### Services (`src/Services/`)
 | Service | Path | Description |
 |---------|------|-------------|
-| AI Drivers | `Services/AI/` | `OpenAIDriver`, `AnthropicDriver` |
+| AI Drivers | `Services/AI/` | `AiDriverFactory`, `OpenAIDriver`, `AnthropicDriver` |
 | MCP Server | `Services/MCP/DomoMcpServer.php` | Model Context Protocol server |
 | Schema | `Services/Schema/Analyzer.php` | Database schema analysis |
 | Database | `Services/Database/` | `ConnectionManager`, `TableCollector` |
@@ -190,9 +190,30 @@ class [NameException] extends DomoException
 
 ```php
 return [
-    'ai_driver' => env('DOMO_AI_DRIVER', 'openai'),      // 'openai' | 'anthropic'
-    'openai_api_key' => env('OPENAI_API_KEY'),
-    'anthropic_api_key' => env('ANTHROPIC_API_KEY'),
+    'ai_driver' => env('DOMO_AI_DRIVER', 'opencode'),    // default provider key (see 'providers')
+
+    // variant: 'anthropic' = Anthropic API; anything else = OpenAI-compatible.
+    // Resolved by Services/AI/AiDriverFactory; selectable per-analysis in the dashboard.
+    'providers' => [
+        'openai' => [
+            'variant' => 'openai',
+            'api_key' => env('OPENAI_API_KEY'),
+            'model' => env('DOMO_OPENAI_MODEL', 'gpt-4o-mini'),
+            'base_url' => env('DOMO_OPENAI_BASE_URL'),
+        ],
+        'anthropic' => [
+            'variant' => 'anthropic',
+            'api_key' => env('ANTHROPIC_API_KEY'),
+            'model' => env('DOMO_ANTHROPIC_MODEL', 'claude-sonnet-4-5'),
+            'base_url' => env('DOMO_ANTHROPIC_BASE_URL'),
+        ],
+        'opencode' => [                                  // default
+            'variant' => 'opencode',
+            'api_key' => env('DOMO_OPENCODE_API_KEY'),
+            'model' => env('DOMO_OPENCODE_MODEL', 'deepseek-v4-pro'),
+            'base_url' => env('DOMO_OPENCODE_BASE_URL'),
+        ],
+    ],
 
     'mcp' => [
         'enabled' => env('DOMO_MCP_ENABLED', true),
@@ -202,6 +223,7 @@ return [
 
     'dashboard' => [
         'enabled' => env('DOMO_DASHBOARD_ENABLED', true),
+        'environments' => ['local'],  // auto-registers routes only here (never production)
         'route' => env('DOMO_DASHBOARD_ROUTE', 'domo'),
         'host' => env('DOMO_DASHBOARD_HOST', '127.0.0.1'),
         'port' => env('DOMO_DASHBOARD_PORT', 8080),
@@ -226,9 +248,12 @@ return [
 ### Environment Variables
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `DOMO_AI_DRIVER` | `openai` | AI provider (`openai` / `anthropic`) |
+| `DOMO_AI_DRIVER` | `opencode` | Active provider key (`openai` / `anthropic` / `opencode`) |
 | `OPENAI_API_KEY` | - | OpenAI API key |
 | `ANTHROPIC_API_KEY` | - | Anthropic API key |
+| `DOMO_OPENCODE_API_KEY` | - | opencode API key (default provider) |
+| `DOMO_OPENCODE_MODEL` | `deepseek-v4-pro` | opencode model id |
+| `DOMO_OPENCODE_BASE_URL` | `https://opencode.ai/zen/go/v1/` | opencode (OpenAI-compatible) endpoint |
 | `DOMO_MCP_ENABLED` | `true` | Enable MCP server |
 | `DOMO_MCP_PORT` | `3000` | MCP server port |
 | `DOMO_MCP_HOST` | `127.0.0.1` | MCP server host |

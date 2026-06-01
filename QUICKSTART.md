@@ -14,8 +14,9 @@ composer install
 cp .env.example .env
 
 # Configure your API keys
-# Edit .env and add:
-# - OPENAI_API_KEY or ANTHROPIC_API_KEY
+# Edit .env and add (default provider is opencode):
+# - DOMO_OPENCODE_API_KEY + DOMO_OPENCODE_BASE_URL  (default)
+# - or OPENAI_API_KEY / ANTHROPIC_API_KEY and set DOMO_AI_DRIVER accordingly
 ```
 
 ## Development
@@ -59,7 +60,7 @@ Edit `config/domo.php`:
 
 ```php
 return [
-    'ai_driver' => 'openai', // or 'anthropic'
+    'ai_driver' => 'opencode', // openai | anthropic | opencode | your own
     'mcp' => [
         'enabled' => true,
         'port' => 3000,

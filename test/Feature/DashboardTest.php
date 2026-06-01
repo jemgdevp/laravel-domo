@@ -119,5 +119,7 @@ class DashboardTest extends TestCase
         $response->assertOk();
         $response->assertSee('AI Analysis');          // page title
         $response->assertSee('Run analysis');         // submit affordance
+        $response->assertSee('Provider / variant');   // provider selector
+        $response->assertSee('opencode');             // configured provider option
     }
 }

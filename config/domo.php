@@ -12,7 +12,7 @@ return [
     | Supported: "openai", "anthropic"
     |
     */
-    'ai_driver' => env('DOMO_AI_DRIVER', 'openai'),
+    'ai_driver' => env('DOMO_AI_DRIVER', 'opencode'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,9 @@ return [
     | "variant" to the base protocol and pointing "base_url" at its endpoint.
     |
     | Keys per provider:
-    |   - variant:  base protocol / SDK to use, either "openai" or "anthropic".
+    |   - variant:  base protocol — "anthropic" speaks the Anthropic API; any
+    |               other value ("openai", "opencode", ...) uses the
+    |               OpenAI-compatible protocol.
     |   - api_key:  the credential for the service.
     |   - model:    model identifier; null falls back to the driver default.
     |   - base_url: custom endpoint; null uses the official API URL.
@@ -45,6 +47,13 @@ return [
             'api_key' => env('ANTHROPIC_API_KEY'),
             'model' => env('DOMO_ANTHROPIC_MODEL', 'claude-sonnet-4-5'),
             'base_url' => env('DOMO_ANTHROPIC_BASE_URL'),
+        ],
+
+        'opencode' => [
+            'variant' => 'opencode',
+            'api_key' => env('DOMO_OPENCODE_API_KEY'),
+            'model' => env('DOMO_OPENCODE_MODEL', 'deepseek-v4-pro'),
+            'base_url' => env('DOMO_OPENCODE_BASE_URL', 'https://opencode.ai/zen/go/v1/'),
         ],
 
         // Example of a user-defined, OpenAI-compatible provider:
@@ -75,11 +84,22 @@ return [
     | Dashboard
     |--------------------------------------------------------------------------
     |
-    | Web dashboard configuration for the visual interface.
+    | Web dashboard configuration for the visual interface. The dashboard
+    | auto-registers its routes (no command required) — just visit the
+    | configured route in your browser.
     |
     */
     'dashboard' => [
         'enabled' => env('DOMO_DASHBOARD_ENABLED', true),
+
+        /*
+        | Environments where the dashboard is allowed to auto-register its
+        | routes. Like Telescope, it is a local development tool and stays
+        | out of production by default. Set this to an empty array to allow
+        | every environment (NOT recommended).
+        */
+        'environments' => ['local'],
+
         'route' => env('DOMO_DASHBOARD_ROUTE', 'domo'),
         'host' => env('DOMO_DASHBOARD_HOST', '127.0.0.1'),
         'port' => env('DOMO_DASHBOARD_PORT', 8080),

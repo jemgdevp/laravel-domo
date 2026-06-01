@@ -16,7 +16,7 @@
 
 ### ✨ Features
 
-- **🌐 Web Dashboard** - Rich visual interface for database management (`domo:serve`)
+- **🌐 Web Dashboard** - Rich visual interface, auto-mounted at `/domo` in your local environment
 - **💻 Terminal UI** - Powerful TUI for command-line workflow (`domo:tui`)
 - **🤖 AI Architect** - AI-powered Eloquent ORM analysis and suggestions
 - **🔌 MCP Integration** - Model Context Protocol for AI agent connectivity
@@ -45,9 +45,15 @@ php artisan vendor:publish --tag=domo-config
 Add your API keys to `.env`:
 
 ```env
-# AI Driver Configuration
-DOMO_AI_DRIVER=openai
-OPENAI_API_KEY=your-api-key
+# AI Driver Configuration — default provider is "opencode"
+DOMO_AI_DRIVER=opencode
+DOMO_OPENCODE_API_KEY=your-api-key
+DOMO_OPENCODE_BASE_URL=https://opencode.ai/zen/go/v1/
+DOMO_OPENCODE_MODEL=deepseek-v4-pro
+
+# Or use OpenAI
+# DOMO_AI_DRIVER=openai
+# OPENAI_API_KEY=your-api-key
 
 # Or use Anthropic
 # DOMO_AI_DRIVER=anthropic
@@ -66,16 +72,22 @@ DOMO_DASHBOARD_PORT=8080
 
 ### Web Dashboard
 
-Start the web dashboard server:
+The dashboard mounts itself automatically — **no command required**. In your
+**local** environment, just visit the `domo` route on your running app:
 
-```bash
-php artisan domo:serve
+```
+http://localhost:8000/domo      # or whatever host/port your app uses
 ```
 
-Access the dashboard at `http://localhost:8080/domo`
+It is a local development tool: like Telescope, its routes are only registered
+in the environments listed under `dashboard.environments` (default: `['local']`),
+so it is **never exposed in production**.
 
-**Options:**
+**Optional — dedicated server.** To run the dashboard on its own port without
+booting your whole app, the bundled command still works:
+
 ```bash
+php artisan domo:serve --open
 php artisan domo:serve --host=0.0.0.0 --port=3000 --open
 ```
 
@@ -106,22 +118,35 @@ DOMO_MCP_HOST=127.0.0.1
 
 ### AI Configuration
 
-Configure your preferred AI driver:
+The default provider is **`opencode`** (an OpenAI-compatible endpoint). You can
+switch the global default with `DOMO_AI_DRIVER`, or pick the provider/model
+**per analysis** from the dashboard's AI page.
 
 ```env
-DOMO_AI_DRIVER=openai
-OPENAI_API_KEY=your-api-key
+# Default: opencode (OpenAI-compatible)
+DOMO_AI_DRIVER=opencode
+DOMO_OPENCODE_API_KEY=your-api-key
+DOMO_OPENCODE_BASE_URL=https://opencode.ai/zen/go/v1/
+DOMO_OPENCODE_MODEL=deepseek-v4-pro
 
-# Or use Anthropic
+# Or OpenAI
+# DOMO_AI_DRIVER=openai
+# OPENAI_API_KEY=your-api-key
+
+# Or Anthropic
 # DOMO_AI_DRIVER=anthropic
 # ANTHROPIC_API_KEY=your-api-key
 ```
+
+> Any OpenAI-compatible service (Groq, OpenRouter, Ollama, DeepSeek, ...) works:
+> add a provider in `config/domo.php` with a `base_url` and select it from the
+> AI analysis page.
 
 ### Available Commands
 
 | Command | Description |
 |---------|-------------|
-| `php artisan domo:serve` | Start web dashboard |
+| `php artisan domo:serve` | Run the dashboard on a dedicated server (optional; it auto-mounts at `/domo` in local) |
 | `php artisan domo:tui` | Launch terminal UI |
 | `php artisan vendor:publish --tag=domo-config` | Publish config |
 
@@ -131,7 +156,7 @@ Edit `config/domo.php`:
 
 ```php
 return [
-    'ai_driver' => 'openai', // or 'anthropic'
+    'ai_driver' => 'opencode', // openai | anthropic | opencode | your own
     
     'mcp' => [
         'enabled' => true,
@@ -141,6 +166,7 @@ return [
     
     'dashboard' => [
         'enabled' => true,
+        'environments' => ['local'], // environments where the dashboard auto-registers
         'route' => 'domo',
         'host' => '127.0.0.1',
         'port' => 8080,
@@ -196,7 +222,10 @@ If you discover any security related issues, please email murksopps@gmail.com in
 A: Laravel Domo is designed for development environments. Install as dev dependency: `composer require --dev jemgdevp/laravel-domo`
 
 **Q: Which AI providers are supported?**  
-A: Currently supports OpenAI and Anthropic. More providers coming soon.
+A: OpenAI, Anthropic, and **opencode** (the default) out of the box, plus any
+OpenAI-compatible service (Groq, OpenRouter, Ollama, DeepSeek, ...) you add under
+`providers` in `config/domo.php`. You can also choose the provider and model
+**per analysis** from the dashboard's AI page.
 
 **Q: Can I use this with SQLite?**  
 A: Yes! Laravel Domo supports MySQL, PostgreSQL, SQLite, and SQL Server.

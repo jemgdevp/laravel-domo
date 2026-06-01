@@ -132,6 +132,31 @@
                 </div>
 
                 <div class="field">
+                    <label class="field-label" for="analysis-provider">Provider / variant</label>
+                    <select id="analysis-provider" class="select" x-model="provider" :disabled="loading">
+                        @foreach ($providers as $providerKey)
+                            <option value="{{ $providerKey }}">{{ $providerKey }}@if ($providerKey === $activeProvider) · default @endif</option>
+                        @endforeach
+                    </select>
+                    <span class="field-hint">AI backend used for this run (e.g. opencode, openai, anthropic).</span>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="analysis-model">Model</label>
+                    <input
+                        id="analysis-model"
+                        class="input is-mono"
+                        type="text"
+                        x-model="model"
+                        :disabled="loading"
+                        autocomplete="off"
+                        spellcheck="false"
+                        placeholder="provider default"
+                    />
+                    <span class="field-hint">Optional. Overrides the provider's configured model.</span>
+                </div>
+
+                <div class="field">
                     <label class="field-label" for="analysis-target">Target</label>
                     <input
                         id="analysis-target"
@@ -230,6 +255,12 @@
             {{-- Result meta line --}}
             <div class="flex items-center gap-2 flex-wrap mb-4" x-show="hasResult && !loading" x-cloak>
                 <span class="badge badge-primary" x-text="meta.type"></span>
+                <template x-if="meta.provider">
+                    <span class="badge badge-info"><span class="dot"></span><span x-text="meta.provider"></span></span>
+                </template>
+                <template x-if="meta.model">
+                    <span class="chip mono" x-text="meta.model"></span>
+                </template>
                 <template x-if="meta.target">
                     <span class="chip mono" x-text="meta.target"></span>
                 </template>
@@ -311,10 +342,12 @@
         return {
             type: 'schema',
             target: '',
+            provider: @js($activeProvider),
+            model: '',
             loading: false,
             result: null,
             error: '',
-            meta: { type: '', target: '' },
+            meta: { type: '', target: '', provider: '', model: '' },
             view: 'rich',
             liveStatus: '',
 
@@ -368,7 +401,12 @@
                             'X-CSRF-TOKEN': token,
                             'X-Requested-With': 'XMLHttpRequest',
                         },
-                        body: JSON.stringify({ type: this.type, target: this.target || null }),
+                        body: JSON.stringify({
+                            type: this.type,
+                            target: this.target || null,
+                            provider: this.provider || null,
+                            model: this.model || null,
+                        }),
                     });
 
                     const data = await response.json();
@@ -380,7 +418,12 @@
                         return;
                     }
 
-                    this.meta = { type: data.type ?? this.type, target: data.target ?? '' };
+                    this.meta = {
+                        type: data.type ?? this.type,
+                        target: data.target ?? '',
+                        provider: data.provider ?? this.provider,
+                        model: data.model ?? this.model,
+                    };
                     this.result = data.result ?? {};
                     this.view = 'rich';
                     this.liveStatus = 'Analysis complete';
